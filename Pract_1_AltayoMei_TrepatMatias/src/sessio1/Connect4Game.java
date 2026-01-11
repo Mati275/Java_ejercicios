@@ -50,7 +50,7 @@ public class Connect4Game {
 			
 			//TODO: Create the game and prepare board
 			
-			initializeBoard(board); //comenta esto y ya esta, me lo miraré en casa (MATIAS 2026) CERDO
+			initializeBoard(board); //comenta esto y ya esta, me lo miraré en casa (MATIAS 2026) CERDO!!
 			
 			//TODO: Show current board 
 			
@@ -59,6 +59,7 @@ public class Connect4Game {
 			while (!gameEnded) {
 				
 				//TODO: Interact with user and make move
+				col = getAndValidateColumn(userInput, board.length);
 				
 				
 			}
@@ -102,24 +103,21 @@ public class Connect4Game {
 	 */
 	private static int getAndValidateColumn(JConsole console, int nCols) {
 		//TODO: Complete
-		int col = 0;
-		boolean value = false;
+		int col;
 		
-		while (!value) {
-			console.print("Insert column number [0," + (nCols - 1) + "]: ");
-			console.setForeground(Color.GREEN);
+		console.print("Insert column number [0," + (nCols - 1) + "]: ");
+		console.setForeground(Color.GREEN);
+		col = console.readInt();
+		console.resetColor();
+		console.println();
+		
+		while (col >= 0 && col < nCols) {
+				
+			console.setForeground(Color.RED);
+			console.print ("Value must be between [0," + (nCols - 1) + "]. Insert a new value: ");
 			col = console.readInt();
 			console.resetColor();
-			
-			if (col >= 0 && col < nCols) {
-				
-				value = true;
-				
-			} else {
-				console.setForeground(Color.RED);
-				console.print ("Value must be between [0," + (nCols - 1) + "]. Insert a new value: ");
-				console.resetColor();
-			}	
+			console.println();
 		}
 		
 		return col;
@@ -138,11 +136,9 @@ public class Connect4Game {
 		//TODO: Complete
 		
 		for (int i = 0; i<board.length; i++) {
-			for (int j = 0; j < board[i].length; j++) {
-				if (board[i][j] == ' ') { // Si el tablero esta vacío
-					board[i][j] = currentPlayer;
-					return true; // Lo llena
-				}
+			if (board[i][col] == ' ') { // Si el tablero esta vacío
+				board[i][col] = currentPlayer;
+				return true; // Lo llena
 			}
 		}
 		
@@ -180,44 +176,124 @@ public class Connect4Game {
 	private static boolean hasPlayerWon(char[][] board, char player) {
 		//TODO: Complete
 		
-		for (int i = 0; i < board.length; i++) { //columnas
-			int count = 0;
-			for (int j = 0; j < board[i].length; j++) {
-				// El tablero tiene char del jugador que sean las mismas
-				if (board[i][j] == player) { 
-					count ++;
-					
-					if(count == 4) {
-						return true;
-					} 
-				}  else {
-					// Si no hay 4 seguidos el contador vuelve a 0
-					count = 0; 
-				}
-			}
-		}
+		if (checkRow (board, player) == true || 
+				checkCol(board, player) == true || 
+				checkDiagonal(board, player) == true) {
 		
-		for (int i = 0; i < board.length; i++) { //filas
-			int count = 0;
-			for (int j = 0; j < board[i].length; j++) {
-				// El tablero tiene char del jugador que sean las mismas
-				if (board[i][j] == player) { 
-					count ++;
-					
-					if(count == 4) {
-						return true;
-					} 
-				}  else {
-					// Si no hay 4 seguidos el contador vuelve a 0
-					count = 0; 
-				}
-			}
+			return true;
 		}
-		
 		
 		return false;
 	}
 		
+	
+	private static boolean checkRow (char[][] board, char player) {
+		for (int i = 0; i < board.length; i++) { // Comprovar filas
+			int count = 0;
+			for (int j = 0; j < board[i].length; j++) {
+				// El tablero tiene char del jugador que sean las mismas
+				if (board[i][j] == player) { 
+					count ++;
+					
+					if(count == 4) {
+						return true;
+					} 
+					
+				} else {
+					// Si no hay 4 seguidos el contador vuelve a 0
+					count = 0; 
+				}
+			}
+		}
+		return false;
+	}
+	
+	private static boolean checkCol (char[][] board, char player) {
+		for (int j = 0; j < board[0].length; j++) { // Comprovar columnas
+			int count = 0;
+			for (int i = 0; i < board.length; i++) {
+				// El tablero tiene char del jugador que sean las mismas
+				if (board[i][j] == player) { 
+					count ++;
+					
+					if(count == 4) {
+						return true;
+					} 
+					
+				}  else {
+					// Si no hay 4 seguidos el contador vuelve a 0
+					count = 0; 
+				}
+			}
+		}
+		return false;
+	}
+	
+	private static boolean checkDiagonal (char[][] board, char player) {
+		int count = 0;
+
+		for (int i = 0; i < board.length-3; i++) { // Comprovar diagonales por columnas
+			for (int row = i, col = 0; row < board.length; row++, col++) {
+				if (board [row][col] == player) {
+					count++;
+					
+					if (count == 4) {
+						return true;
+					}
+					
+				} else {
+					count = 0;
+				}
+			}
+		}		
+		
+		for (int j = 0; j < board[0].length-3; j++) { // Comprovar diagonales por filas 
+			for (int row = 0, col = j; row < board.length; row++, col++) {
+				if (board [row][col] == player) {
+					count++;
+					
+					if (count == 4) {
+						return true;
+					}
+					
+				} else {
+					count = 0;
+				}
+			}
+		}
+		
+		for (int j = board[0].length; j > 2 ; j--) { // Comprovar diagonales por fila del final
+			for (int row = 0, col = j; row < board.length; row++, col--) {
+				if (board [row][col] == player) {
+					count++;
+					
+					if (count == 4) {
+						return true;
+					}
+					
+				} else {
+					count = 0;
+				}
+			}
+		}		
+		
+		for (int i = 0; i < board.length-3 ; i++) { // Comprovar diagonales por columnas del final
+			for (int row = i, col = board[0].length-1; row < board.length; row++, col--) {
+				if (board [row][col] == player) {
+					count++;
+					
+					if (count == 4) {
+						return true;
+					}
+					
+				} else {
+					count = 0;
+				}
+			}
+		}		
+		
+		return false;
+	}
 
 	/**
 	 * Shows main menu and returns option selected by user
@@ -262,9 +338,15 @@ public class Connect4Game {
 	
 	private static void showEndGameMessage(char[][]board, char player, JConsole console) {
 		//TODO: Complete
+		
+		if(hasPlayerWon(board, player)) { // Tablero tiene algun connect4
+			console.print("Player " + player + " wins the game");
+			
+		} else { //Si el tablero esta lleno
+			console.print("No one wins! =(");
+		}
 	}
-	
-	
+		
 	
 	/*Auxiliary procedures and functions to test code. DO NOT MODIFY*/
 	
