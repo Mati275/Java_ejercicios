@@ -77,7 +77,6 @@ public class Connect4Game {
 			while (!gameEnded) {
 				
 				//TODO: Interact with user and make move
-				
 				col = getAndValidateColumn(userInput, board[0].length);
 				
 				// While the current player cannot make a move
