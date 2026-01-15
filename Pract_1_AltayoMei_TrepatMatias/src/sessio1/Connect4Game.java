@@ -28,7 +28,12 @@ public class Connect4Game {
 		//Additional vars
 		//TODO: Add variables here if you need them
 		
-		int gameOption;
+		board = new char[6][7]; // Create the board
+		
+		
+		char currentPlayer; // The char of the player who make the next move
+		
+		int gameOption; // 1 or 2, depending if the player want to start a new game or exit
 		
 		
 		// Console positioning, AVOID CHANGING
@@ -38,36 +43,99 @@ public class Connect4Game {
 		gameConsole.setCursorVisible(false);
 
 		//TODO: Show main menu
-		//TODO: Variables initialised with dummy values, feel free to change them if need it
-		gameEnded = false;
-		exit = false;
+		gameOption = showMenuAndSelectOption(userInput);
 
+		
+		//TODO: Variables initialised with dummy values, feel free to change them if need it
+		
+		
+		
+		if (gameOption == 1) {
+			exit = false;
+		}
+		
+		else {
+			exit = true;
+		}
+		
 		while (!exit) {
 
 			//Game begins
 			
-			gameOption = showMenuAndSelectOption(userInput);
-			
 			//TODO: Create the game and prepare board
-			
-			initializeBoard(board); //comenta esto y ya esta, me lo miraré en casa (MATIAS 2026) CERDO!!
+			//board = createBoardWithTie();
+			initializeBoard(board); 
+
 			
 			//TODO: Show current board 
-			
 			showBoard(gameConsole, board);
-
+			
+			
+			gameEnded = false; // To enter to the loop
+			currentPlayer = 'X'; // Set the initial player
+			
 			while (!gameEnded) {
 				
 				//TODO: Interact with user and make move
-				col = getAndValidateColumn(userInput, board.length);
+				
+				col = getAndValidateColumn(userInput, board[0].length);
+				
+				// While the current player cannot make a move
+				while( !move(board, col, currentPlayer) ) {
+					
+					userInput.setForegroundColor(Color.red);
+					userInput.println("Column already full. You need to enter another column");
+					userInput.println();
+					
+					col = getAndValidateColumn(userInput, board[0].length);
+					
+				}
+				
+				
+				// When the player makes a move, show the boardç
+				
+				showBoard(gameConsole, board);
+				
+				
+				// If there is an end condition, stop the loop
+				if( isBoardFull(board) || hasPlayerWon(board, currentPlayer) ) {
+					
+					gameEnded = true;
+					
+				}
+				
+				// If there isn't an end condition, continue the game, changing the current player
+				else {
+					
+					if (currentPlayer == 'X') {
+						currentPlayer = 'O';
+					}
+					else {
+						currentPlayer = 'X';
+					}
+				
+				}
+					
 				
 				
 			}
 			
 			//TODO: Whatever needs to be done when a game has finished
+			gameConsole.println();
+			showEndGameMessage(board, currentPlayer, gameConsole);
 			
 			//TODO: Do not forget that the user should be able to play a new game when another game has ended
-
+			gameOption = showMenuAndSelectOption(userInput);
+			
+			
+			if (gameOption == 1) {
+				exit = false;
+			}
+			
+			else {
+				exit = true;
+			}
+			
 		}
 		userInput.setCursorPosition(0, userInput.getRows()-1);
 		userInput.print("Press any key to exit...");
@@ -83,11 +151,11 @@ public class Connect4Game {
 	 * @param board
 	 */
 	private static void initializeBoard(char[][] board) {
-		//TODO: Complete
 		
-		board = new char [6][7];
 		
+		// Initialize the board with empty spaces
 		for (int i = 0; i < board.length; i++) {
+			
 			for (int j = 0; j < board[i].length; j++) {
 				board [i][j] = ' ';
 			}
@@ -102,21 +170,27 @@ public class Connect4Game {
 	 * @return
 	 */
 	private static int getAndValidateColumn(JConsole console, int nCols) {
-		//TODO: Complete
 		int col;
 		
-		console.print("Insert column number [0," + (nCols - 1) + "]: ");
-		console.setForeground(Color.GREEN);
-		col = console.readInt();
 		console.resetColor();
+		console.print("Insert column number [0," + (nCols - 1) + "]: ");
+		
+		console.setForegroundColor(Color.GREEN);
+		col = console.readInt();
+		
+		//console.resetColor();
+
 		console.println();
 		
-		while (col >= 0 && col < nCols) {
+		while (col < 0 || col > nCols - 1) {
 				
-			console.setForeground(Color.RED);
+			console.setForegroundColor(Color.RED);
 			console.print ("Value must be between [0," + (nCols - 1) + "]. Insert a new value: ");
+			
+			console.setForegroundColor(Color.GREEN);
 			col = console.readInt();
 			console.resetColor();
+			
 			console.println();
 		}
 		
@@ -132,17 +206,22 @@ public class Connect4Game {
 	 * @param player
 	 * @return
 	 */
+	
 	private static boolean move(char[][] board, int col, char currentPlayer) {
-		//TODO: Complete
 		
-		for (int i = 0; i<board.length; i++) {
-			if (board[i][col] == ' ') { // Si el tablero esta vacío
+		
+		// Start from the bottom
+		for ( int i = board.length - 1; i >= 0; i-- ) {
+			
+			// Detect one void row in the column
+			if (board[i][col] == ' ') {
+				
 				board[i][col] = currentPlayer;
-				return true; // Lo llena
+				return true; // The column isn't filled --> The player can make a move
 			}
+			
 		}
-		
-		// Ya esta lleno toda la columna
+		// Don't detect any void position --> Column filled --> the player can't make a move
 		return false;
 	}
 	
@@ -155,16 +234,18 @@ public class Connect4Game {
 	private static boolean isBoardFull(char[][] board) {
 		//TODO: Complete
 		
-		for (int i = 0; i<board.length; i++) {
+		for (int i = 0; i < board.length; i++) {
+			
 			for (int j = 0; j < board[i].length; j++) {
+				
 				if (board [i][j] == ' ') {
-					return false; // Si encuentra algun vacío en la taula
+					
+					return false; // There is at least one void space in the board
 				}
 			}
 		}
 		
-		// Devuelve si no hay ningun hueco en la taula
-		return true;
+		return true; // The board is fill (there isn't any void space in the board)
 	}
 	
 	/**
@@ -177,8 +258,8 @@ public class Connect4Game {
 		//TODO: Complete
 		
 		if (checkRow (board, player) == true || 
-				checkCol(board, player) == true || 
-				checkDiagonal(board, player) == true) {
+			checkCol(board, player) == true || 
+			checkDiagonal(board, player) == true) {
 		
 			return true;
 		}
@@ -186,6 +267,91 @@ public class Connect4Game {
 		return false;
 	}
 		
+	
+
+	/**
+	 * Shows main menu and returns option selected by user
+	 * 
+	 * @param console
+	 * @return
+	 */
+	private static int showMenuAndSelectOption(JConsole userInput) {
+		//TODO: Complete
+		int num;
+		
+		// Clears the text before
+		userInput.clear();
+		
+		// Show both options
+		userInput.resetColor();
+		userInput.println ("Select option");
+		userInput.println ("1. New game");
+		userInput.println ("2. Exit");
+		
+		// Ask the user one number 
+		userInput.setForegroundColor(Color.GREEN);
+		num = userInput.readInt();
+		userInput.println();
+
+		
+		// The number isn't between 1 and 2, so ask again the number
+		while (num < 1 || num > 2) {
+			
+			// Show the error message
+			userInput.setForegroundColor(Color.RED);
+			userInput.println("Menu opion must be betwwn 1 (New Game) and 2 (Exit). Reenter your selection:");
+			
+			// Ask the user one number 
+			userInput.setForegroundColor(Color.GREEN);
+			num = userInput.readInt();
+			userInput.println();
+		}
+		
+		
+		userInput.resetColor();
+		
+		return num; // The number must be between 1 and 2
+	}
+	
+	
+	private static void showBoard(JConsole gameConsole, char[][] board) {
+		//TODO: Complete
+		
+		// Clear the board that was before (if it was one)
+		gameConsole.clear();
+		
+		for (int i = 0; i < board.length; i++) {
+			
+			for (int j = 0; j < board[i].length; j++) {
+				gameConsole.print("|");
+				gameConsole.print(board [i][j]);
+			}
+			
+			gameConsole.print("|");
+
+			gameConsole.println();
+			
+		}
+		
+	}
+	
+	private static void showEndGameMessage(char[][]board, char player, JConsole console) {
+		//TODO: Complete
+		
+		// The player make a connect4
+		if( hasPlayerWon(board, player) ) { 
+			console.print("Player " + player + " wins the game");
+			
+		// board filled	
+		} else { 
+			console.print("No one wins! =(");
+		}
+	}
+		
+	
+	// ***********
+	// Additional functions to check the possibilities of a plater winning in a row, column, or diagonal
+	// ***********
 	
 	private static boolean checkRow (char[][] board, char player) {
 		for (int i = 0; i < board.length; i++) { // Comprovar filas
@@ -207,6 +373,7 @@ public class Connect4Game {
 		}
 		return false;
 	}
+	
 	
 	private static boolean checkCol (char[][] board, char player) {
 		for (int j = 0; j < board[0].length; j++) { // Comprovar columnas
@@ -232,60 +399,96 @@ public class Connect4Game {
 	private static boolean checkDiagonal (char[][] board, char player) {
 		int count = 0;
 
-		for (int i = 0; i < board.length-3; i++) { // Comprovar diagonales por columnas
+		// Check every row of column 0 its diagonals, except the last 3 rows (because it's impossible to have a connect4) 
+		for (int i = 0; i < board.length - 4 ; i++) { 
+			
+			count = 0; // Restart the count when checking a new row / column
+			
+			// Check every diagonal from column 0 and a row until the row it's out of bounds
 			for (int row = i, col = 0; row < board.length; row++, col++) {
+				
+				// If it is detected the player in the specific position, add one to the counter
 				if (board [row][col] == player) {
 					count++;
 					
+					// If the counter arrives to 4, end the function returning true 
 					if (count == 4) {
 						return true;
 					}
 					
+				// If it isn't detected the player in the specific position, reset the counter
 				} else {
 					count = 0;
 				}
 			}
 		}		
 		
-		for (int j = 0; j < board[0].length-3; j++) { // Comprovar diagonales por filas 
-			for (int row = 0, col = j; row < board.length; row++, col++) {
+		// Check every column of the row 0 its diagonals, except the last 3 columns (because it's impossible to have a connect4) 
+		for (int j = 1; j < board[0].length - 3; j++) { 
+			
+			count = 0; // Restart the count when checking a new row / column
+			
+			// Check every diagonal from row 0 and a column (starting in the second one) until the column it's out of bounds
+			for (int row = 0, col = j; col < board[0].length; row++, col++) {
+				
+				// If it is detected the player in the specific position, add one to the counter
 				if (board [row][col] == player) {
 					count++;
 					
+					// If the counter arrives to 4, end the function returning true 
 					if (count == 4) {
 						return true;
 					}
 					
+				// If it isn't detected the player in the specific position, reset the counter
 				} else {
 					count = 0;
 				}
 			}
 		}
 		
-		for (int j = board[0].length; j > 2 ; j--) { // Comprovar diagonales por fila del final
-			for (int row = 0, col = j; row < board.length; row++, col--) {
+		// Check every column of the row 0 its opposite diagonals, except the first 3 columns (because it's impossible to have a connect4) 
+		for (int j = board[0].length - 1; j > 2 ; j--) { 
+			
+			count = 0; // Restart the count when checking a new row / column
+			
+			// Check every diagonal from row 0 and a column (starting in the last one) until the row or the column it's out of bounds
+			for (int row = 0, col = j; row < board.length && col > 0; row++, col--) {
+				
+				// If it is detected the player in the specific position, add one to the counter
 				if (board [row][col] == player) {
 					count++;
 					
+					// If the counter arrives to 4, end the function returning true 
 					if (count == 4) {
 						return true;
 					}
 					
+				// If it isn't detected the player in the specific position, reset the counter
 				} else {
 					count = 0;
 				}
 			}
 		}		
 		
-		for (int i = 0; i < board.length-3 ; i++) { // Comprovar diagonales por columnas del final
-			for (int row = i, col = board[0].length-1; row < board.length; row++, col--) {
+		// Check every row of the last column its opposite diagonals, except the last 3 row (because it's impossible to have a connect4) 
+		for (int i = 0; i < board.length - 4 ; i++) { 
+			
+			count = 0; // Restart the count when checking a new row / column
+			
+			// Check every diagonal from the last column and a row (starting in the second one) until the row or the column it's out of bounds
+			for (int row = 1, col = board[0].length - 1; row < board.length && col > 0; row++, col--) {
+				
+				// If it is detected the player in the specific position, add one to the counter
 				if (board [row][col] == player) {
 					count++;
 					
+					// If the counter arrives to 4, end the function returning true 
 					if (count == 4) {
 						return true;
 					}
 					
+				// If it isn't detected the player in the specific position, reset the counter
 				} else {
 					count = 0;
 				}
@@ -294,61 +497,11 @@ public class Connect4Game {
 		
 		return false;
 	}
-
-	/**
-	 * Shows main menu and returns option selected by user
-	 * 
-	 * @param console
-	 * @return
-	 */
-	private static int showMenuAndSelectOption(JConsole userInput) {
-		//TODO: Complete
-		int num;
-		
-		userInput.println ("Select option");
-		userInput.println ("1. New game");
-		userInput.println ("2. Exit");
-		userInput.setForeground(Color.GREEN);
-		num = userInput.readInt();
-		
-		while (num != 1 || num != 2) {
-			userInput.setForeground(Color.RED);
-			userInput.println ("Menu opion must be betwwn 1 (New Game) and 2 (Exit). Reenter your selection:");
-			userInput.setForeground(Color.GREEN);
-			num = userInput.readInt();
-		}
-		
-		userInput.resetColor();
-		
-		return num;
-	}
 	
 	
-	private static void showBoard(JConsole gameConsole, char[][] board) {
-		//TODO: Complete
-		
-		for (int i = 0; i < board.length; i++) {
-			for (int j = 0; j < board[i].length; j++) {
-				gameConsole.print(board [i][j]);
-			}
-			gameConsole.println();
-		}
-		
-	}
-	
-	private static void showEndGameMessage(char[][]board, char player, JConsole console) {
-		//TODO: Complete
-		
-		if(hasPlayerWon(board, player)) { // Tablero tiene algun connect4
-			console.print("Player " + player + " wins the game");
-			
-		} else { //Si el tablero esta lleno
-			console.print("No one wins! =(");
-		}
-	}
-		
 	
 	/*Auxiliary procedures and functions to test code. DO NOT MODIFY*/
+		
 	
 	/**
 	 * Generates a board that allows player 1 to win by placing token on column 0.
