@@ -91,7 +91,7 @@ public class Connect4Game {
 				}
 				
 				
-				// When the player makes a move, show the boardç
+				// When the player makes a move, show the board
 				
 				showBoard(gameConsole, board);
 				
