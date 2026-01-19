@@ -256,9 +256,9 @@ public class Connect4Game {
 	private static boolean hasPlayerWon(char[][] board, char player) {
 		//TODO: Complete
 		
-		if (checkRow (board, player) == true || 
-			checkCol(board, player) == true || 
-			checkDiagonal(board, player) == true) {
+		if (checkRow (board, player) || 
+			checkCol(board, player) || 
+			checkDiagonal(board, player)) {
 		
 			return true;
 		}
