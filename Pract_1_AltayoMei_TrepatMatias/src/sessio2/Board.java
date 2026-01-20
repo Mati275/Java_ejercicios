@@ -92,12 +92,14 @@ public class Board {
 		
 	public String boardToString() {
 		String board = "";
-		
+			
 		for (int i = 0; i < cells.length; i++){
 			for (int j = 0; j < cells[i].length; j++){
 				
-				board = board + cells[i][j].getContent();
+				board = board + "|"+ cells[i][j].getContent();
 			}
+		
+			board = board + "|\n";
 		}	
 		return board;
 	}

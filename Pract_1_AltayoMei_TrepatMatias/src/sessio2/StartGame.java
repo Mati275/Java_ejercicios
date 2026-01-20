@@ -29,8 +29,8 @@ public class StartGame {
 		
 		//Additional vars
 		
-		int option;
-		boolean repeat = false;
+		int option, col;
+		//boolean moves;
 		
 		//TODO: Declare more variables here if you need them
 		
@@ -52,47 +52,54 @@ public class StartGame {
 		}
 		
 		//TODO: We initialize the variables with some dummy values, feel free to change them if you need to
-		gameEnded = false;
 		
 		while(!exit) {
-			
+			gameEnded = false;
+
 			///Game begins
 			
 			//TODO: Create the game
-			
-			currentGame = new Game();
+			currentGame = new Game(); // Tablero
 			
 			//TODO: Show current board 
+			//showBoard(gameConsole, currentGame);
+			gameConsole.clear();
+			gameConsole.println(currentGame.boardToString());
 			
-			showBoard(gameConsole, currentGame);
-					
 			while(!gameEnded) {
 				
 				//TODO: Interact with user and make move
 				
-				while(!repeat) {
-					currentGame.move(halfHeightPlayer);
+				col = getAndValidateColumn(userInput, currentGame.getBoardCol());
 				
+				// Entra si todo el getContent de Board, esta lleno
+				while (!currentGame.move(col)) {
+					userInput.setForegroundColor(Color.red);
+					userInput.println("Column already full. You need to enter another column");
+					userInput.println();
+					col = getAndValidateColumn(userInput, currentGame.getBoardCol());
+
 				}
+				gameConsole.clear();
+				gameConsole.println(currentGame.boardToString());
 				
-				
+				//Comprueba el ganador
+								
+				gameEnded = currentGame.hasGameEnded();
 			}
-			
-			//Jugador  == empate || jugador == ganador
-			
-			
-			//TODO: Whatever needs to be done when a game has finished 
+					
+			//TODO: Whatever needs to be done when a game has finished
 			
 			gameConsole.print(currentGame.getEndMessage());
 			
-		
 			//TODO: A user should be able to play a new game when the previous has ended
 			
 			option = showMenuAndSelectOption(userInput);
 			
 			if (option == 2) {
 				exit = true;
-			}
+			} 
+
 		}
 		
 		
@@ -174,7 +181,7 @@ public class StartGame {
 	
 	// OTHER FUNCTIONS
 	
-	private static void showBoard (JConsole gameConsole, Game game) {
+	/*private static void showBoard (JConsole gameConsole, Game game) {
 		for (int i = 0; i < game.getBoardRow(); i++){
 			for (int j = 0; j < game.getBoardCol(); j++) {
 				gameConsole.print ("|");
@@ -187,6 +194,6 @@ public class StartGame {
 			gameConsole.println ("|");
 		}
 		
-	}
+	}*/
 
 }
