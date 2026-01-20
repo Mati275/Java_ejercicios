@@ -353,8 +353,11 @@ public class Connect4Game {
 	// ***********
 	
 	private static boolean checkRow (char[][] board, char player) {
+		int count = 0;
+		
 		for (int i = 0; i < board.length; i++) { // Comprovar filas
-			int count = 0;
+			count = 0;
+			
 			for (int j = 0; j < board[i].length; j++) {
 				// El tablero tiene char del jugador que sean las mismas
 				if (board[i][j] == player) { 
@@ -375,8 +378,11 @@ public class Connect4Game {
 	
 	
 	private static boolean checkCol (char[][] board, char player) {
+		int count = 0;
+
 		for (int j = 0; j < board[0].length; j++) { // Comprovar columnas
-			int count = 0;
+			
+			count = 0;
 			for (int i = 0; i < board.length; i++) {
 				// El tablero tiene char del jugador que sean las mismas
 				if (board[i][j] == player) { 

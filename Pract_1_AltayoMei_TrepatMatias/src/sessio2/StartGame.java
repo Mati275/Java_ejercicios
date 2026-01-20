@@ -3,6 +3,9 @@ package sessio2;
 import java.awt.Color;
 import java.awt.Toolkit;
 
+import sessio2.Game;
+
+
 import jconsole.JConsole;
 
 public class StartGame {
@@ -25,7 +28,12 @@ public class StartGame {
 		Game currentGame;
 		
 		//Additional vars
+		
+		int option;
+		boolean repeat = false;
+		
 		//TODO: Declare more variables here if you need them
+		
 		
 		//Console positioning, AVOID CHANGING
 		gameConsole.setLocation(halfWidthGame,10);
@@ -34,8 +42,16 @@ public class StartGame {
 		gameConsole.setCursorVisible(false);
 
 		//TODO: Show main menu
+		
+		option = showMenuAndSelectOption(userInput);
+		
+		if (option == 1) {
+			exit = false;
+		} else {
+			exit = true;
+		}
+		
 		//TODO: We initialize the variables with some dummy values, feel free to change them if you need to
-		exit = false;
 		gameEnded = false;
 		
 		while(!exit) {
@@ -44,18 +60,41 @@ public class StartGame {
 			
 			//TODO: Create the game
 			
+			currentGame = new Game();
+			
 			//TODO: Show current board 
 			
+			showBoard(gameConsole, currentGame);
+					
 			while(!gameEnded) {
+				
 				//TODO: Interact with user and make move
+				
+				while(!repeat) {
+					currentGame.move(halfHeightPlayer);
+				
+				}
+				
 				
 			}
 			
-			//TODO: Whatever needs to be done when a game has finished
+			//Jugador  == empate || jugador == ganador
+			
+			
+			//TODO: Whatever needs to be done when a game has finished 
+			
+			gameConsole.print(currentGame.getEndMessage());
+			
 		
 			//TODO: A user should be able to play a new game when the previous has ended
 			
+			option = showMenuAndSelectOption(userInput);
+			
+			if (option == 2) {
+				exit = true;
+			}
 		}
+		
 		
 		userInput.setCursorPosition(0, userInput.getRows()-1);
 		userInput.print("Press any key to exit...");
@@ -130,6 +169,24 @@ public class StartGame {
 		}
 		
 		return col;
+	}
+	
+	
+	// OTHER FUNCTIONS
+	
+	private static void showBoard (JConsole gameConsole, Game game) {
+		for (int i = 0; i < game.getBoardRow(); i++){
+			for (int j = 0; j < game.getBoardCol(); j++) {
+				gameConsole.print ("|");
+
+				// charAt devuelve un caracter, devuelve el indice del parentesis (i+1)
+				// PREGUNTAR
+				gameConsole.print (game.boardToString().charAt( (i * 7) + j ) ) ;
+			}
+			
+			gameConsole.println ("|");
+		}
+		
 	}
 
 }
