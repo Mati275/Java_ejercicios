@@ -35,11 +35,14 @@ public class Game {
 		return board.getNumCols();
 	}
 	
+	// Called when the currentPlayer make a move 
 	public boolean move(int col) {
 		boolean makeMove;
 		
-		makeMove = board.move(col, currentPlayer);
+		// Do a move
+		makeMove = board.move(col, currentPlayer); 
 		
+		// If a movement it's done --> change the currentPlayer
 		if (makeMove) {
 			if(currentPlayer == PLAYER1) {
 				currentPlayer = PLAYER2;
@@ -48,9 +51,10 @@ public class Game {
 			}
 		}
 		
-		return makeMove;
+		return makeMove; // Return whether the move is done or not
 	}
 	
+	// Check if any end condition has already happened
 	public boolean hasGameEnded() {
 		computeWinner();
 		
@@ -61,14 +65,17 @@ public class Game {
 		return false;
 	}
 	
+	// Transform the board to an string ready to be printed
 	public String boardToString() {
 		return board.boardToString();
 	}
 	
 	
+	// Get an end message depending on the ending
 	public String getEndMessage() {
-		String endMessage = " ";
+		String endMessage = " "; // Initialize the local variable void: " "
 		
+		// Change the variable if the game has already ended
 		if (hasGameEnded()) {
 			if (winner == PLAYER1 || winner == PLAYER2) {
 				endMessage = "Player " + winner + " wins the game";				
@@ -80,7 +87,7 @@ public class Game {
 		return endMessage;
 	}
 	
-	
+	// Change the attribute winner if any of both players won
 	private void computeWinner() {
 		if (winner == ' ') {
 			if(board.hasPlayerWon(PLAYER1)) {

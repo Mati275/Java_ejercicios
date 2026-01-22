@@ -355,11 +355,11 @@ public class Connect4Game {
 	private static boolean checkRow (char[][] board, char player) {
 		int count = 0;
 		
-		for (int i = 0; i < board.length; i++) { // Comprovar filas
+		for (int i = 0; i < board.length; i++) { 
 			count = 0;
 			
 			for (int j = 0; j < board[i].length; j++) {
-				// El tablero tiene char del jugador que sean las mismas
+
 				if (board[i][j] == player) { 
 					count ++;
 					
@@ -368,7 +368,6 @@ public class Connect4Game {
 					} 
 					
 				} else {
-					// Si no hay 4 seguidos el contador vuelve a 0
 					count = 0; 
 				}
 			}
@@ -380,11 +379,10 @@ public class Connect4Game {
 	private static boolean checkCol (char[][] board, char player) {
 		int count = 0;
 
-		for (int j = 0; j < board[0].length; j++) { // Comprovar columnas
+		for (int j = 0; j < board[0].length; j++) { 
 			
 			count = 0;
 			for (int i = 0; i < board.length; i++) {
-				// El tablero tiene char del jugador que sean las mismas
 				if (board[i][j] == player) { 
 					count ++;
 					
@@ -393,7 +391,6 @@ public class Connect4Game {
 					} 
 					
 				}  else {
-					// Si no hay 4 seguidos el contador vuelve a 0
 					count = 0; 
 				}
 			}
@@ -404,8 +401,8 @@ public class Connect4Game {
 	private static boolean checkDiagonal(char[][] board, char player) {
 
 		// Diagonal DOWN (up - left to down - right) 
-		for (int row = 0; row < board.length; row++) {
-			for (int col = 0; col < board[0].length; col++) {
+		for (int row = 0; row < board.length - 3; row++) {
+			for (int col = 0; col < board[0].length - 3; col++) {
 				// Check for diagonal down
 				if (board[row][col] == player &&
 						board[row + 1][col + 1] == player &&
@@ -418,7 +415,7 @@ public class Connect4Game {
 
 		// Diagonal UP (down - left to up - right)
 		for (int row = 3; row < board.length; row++) {
-			for (int col = 0; col < board.length; col++) {
+			for (int col = 0; col < board[row].length - 3; col++) {
 				// Check for diagonal up
 				if (board[row][col] == player &&
 						board[row - 1][col + 1] == player &&

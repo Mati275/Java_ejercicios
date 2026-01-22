@@ -27,13 +27,9 @@ public class StartGame {
 		boolean exit;
 		Game currentGame;
 		
-		//Additional vars
-		
-		int option, col;
-		//boolean moves;
 		
 		//TODO: Declare more variables here if you need them
-		
+		int option, col;
 		
 		//Console positioning, AVOID CHANGING
 		gameConsole.setLocation(halfWidthGame,10);
@@ -42,19 +38,18 @@ public class StartGame {
 		gameConsole.setCursorVisible(false);
 
 		//TODO: Show main menu
-		
 		option = showMenuAndSelectOption(userInput);
 		
+		// Set the boolean variable "exit" depending on the user's response
 		if (option == 1) {
 			exit = false;
 		} else {
 			exit = true;
 		}
-		
-		//TODO: We initialize the variables with some dummy values, feel free to change them if you need to
-		
+				
 		while(!exit) {
-			gameEnded = false;
+			
+			gameEnded = false; // At every loop, reset the variable on false
 
 			///Game begins
 			
@@ -62,17 +57,16 @@ public class StartGame {
 			currentGame = new Game(); // Tablero
 			
 			//TODO: Show current board 
-			//showBoard(gameConsole, currentGame);
-			gameConsole.clear();
-			gameConsole.println(currentGame.boardToString());
+			gameConsole.clear(); // Clear the previous version of the board (if it isn't the first game)
+			gameConsole.println(currentGame.boardToString()); // Print the current board
 			
 			while(!gameEnded) {
 				
 				//TODO: Interact with user and make move
-				  0000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000
 				col = getAndValidateColumn(userInput, currentGame.getBoardCol());
 				
-				// Entra si todo el getContent de Board, esta lleno
+				// The "move" method inside the condition in the while it's always executed before executing the code inside the loop
+				// The code inside the loop it's only executed if the player can't make a move (because the column is filled) and show an error message
 				while (!currentGame.move(col)) {
 					userInput.setForegroundColor(Color.red);
 					userInput.println("Column already full. You need to enter another column");
@@ -80,29 +74,28 @@ public class StartGame {
 					col = getAndValidateColumn(userInput, currentGame.getBoardCol());
 
 				}
-				gameConsole.clear();
-				gameConsole.println(currentGame.boardToString());
 				
-				//Comprueba el ganador
-								
+				gameConsole.clear(); // Clear the previous version of the board
+				gameConsole.println(currentGame.boardToString()); // Print the current board
+				
+				// Check if the game has already ended				
 				gameEnded = currentGame.hasGameEnded();
 			}
 					
 			//TODO: Whatever needs to be done when a game has finished
-			
 			gameConsole.print(currentGame.getEndMessage());
 			
 			//TODO: A user should be able to play a new game when the previous has ended
-			
 			option = showMenuAndSelectOption(userInput);
 			
+			// only change the "exit" variable if the option of the player is exit, because in this point "exit == false"
 			if (option == 2) {
 				exit = true;
 			} 
 
 		}
 		
-		
+		// Exit the game
 		userInput.setCursorPosition(0, userInput.getRows()-1);
 		userInput.print("Press any key to exit...");
 		userInput.readKey();
