@@ -1,7 +1,5 @@
 package sessio2;
 
-import sessio2.Cell;
-
 public class Board {
 	
 	// ATTRIBUTES
