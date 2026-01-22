@@ -3,7 +3,6 @@ package sessio2;
 import java.awt.Color;
 import java.awt.Toolkit;
 
-import sessio2.Game;
 
 
 import jconsole.JConsole;
