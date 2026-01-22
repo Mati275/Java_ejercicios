@@ -401,107 +401,37 @@ public class Connect4Game {
 		return false;
 	}
 	
-	private static boolean checkDiagonal (char[][] board, char player) {
-		int count = 0;
+	private static boolean checkDiagonal(char[][] board, char player) {
 
-		// Check every row of column 0 its diagonals, except the last 3 rows (because it's impossible to have a connect4) 
-		for (int i = 0; i < board.length - 4 ; i++) { 
-			
-			count = 0; // Restart the count when checking a new row / column
-			
-			// Check every diagonal from column 0 and a row until the row it's out of bounds
-			for (int row = i, col = 0; row < board.length; row++, col++) {
-				
-				// If it is detected the player in the specific position, add one to the counter
-				if (board [row][col] == player) {
-					count++;
-					
-					// If the counter arrives to 4, end the function returning true 
-					if (count == 4) {
-						return true;
-					}
-					
-				// If it isn't detected the player in the specific position, reset the counter
-				} else {
-					count = 0;
-				}
-			}
-		}		
-		
-		// Check every column of the row 0 its diagonals, except the last 3 columns (because it's impossible to have a connect4) 
-		for (int j = 1; j < board[0].length - 3; j++) { 
-			
-			count = 0; // Restart the count when checking a new row / column
-			
-			// Check every diagonal from row 0 and a column (starting in the second one) until the column it's out of bounds
-			for (int row = 0, col = j; col < board[0].length; row++, col++) {
-				
-				// If it is detected the player in the specific position, add one to the counter
-				if (board [row][col] == player) {
-					count++;
-					
-					// If the counter arrives to 4, end the function returning true 
-					if (count == 4) {
-						return true;
-					}
-					
-				// If it isn't detected the player in the specific position, reset the counter
-				} else {
-					count = 0;
+		// Diagonal DOWN (up - left to down - right) 
+		for (int row = 0; row < board.length; row++) {
+			for (int col = 0; col < board[0].length; col++) {
+				// Check for diagonal down
+				if (board[row][col] == player &&
+						board[row + 1][col + 1] == player &&
+						board[row + 2][col + 2] == player &&
+						board[row + 3][col + 3] == player) {
+					return true;
 				}
 			}
 		}
-		
-		// Check every column of the row 0 its opposite diagonals, except the first 3 columns (because it's impossible to have a connect4) 
-		for (int j = board[0].length - 1; j > 2 ; j--) { 
-			
-			count = 0; // Restart the count when checking a new row / column
-			
-			// Check every diagonal from row 0 and a column (starting in the last one) until the row or the column it's out of bounds
-			for (int row = 0, col = j; row < board.length && col > 0; row++, col--) {
-				
-				// If it is detected the player in the specific position, add one to the counter
-				if (board [row][col] == player) {
-					count++;
-					
-					// If the counter arrives to 4, end the function returning true 
-					if (count == 4) {
-						return true;
-					}
-					
-				// If it isn't detected the player in the specific position, reset the counter
-				} else {
-					count = 0;
+
+		// Diagonal UP (down - left to up - right)
+		for (int row = 3; row < board.length; row++) {
+			for (int col = 0; col < board.length; col++) {
+				// Check for diagonal up
+				if (board[row][col] == player &&
+						board[row - 1][col + 1] == player &&
+						board[row - 2][col + 2] == player &&
+						board[row - 3][col + 3] == player) {
+					return true;
 				}
 			}
-		}		
-		
-		// Check every row of the last column its opposite diagonals, except the last 3 row (because it's impossible to have a connect4) 
-		for (int i = 0; i < board.length - 4 ; i++) { 
-			
-			count = 0; // Restart the count when checking a new row / column
-			
-			// Check every diagonal from the last column and a row (starting in the second one) until the row or the column it's out of bounds
-			for (int row = 1, col = board[0].length - 1; row < board.length && col > 0; row++, col--) {
-				
-				// If it is detected the player in the specific position, add one to the counter
-				if (board [row][col] == player) {
-					count++;
-					
-					// If the counter arrives to 4, end the function returning true 
-					if (count == 4) {
-						return true;
-					}
-					
-				// If it isn't detected the player in the specific position, reset the counter
-				} else {
-					count = 0;
-				}
-			}
-		}		
-		
+		}
+
 		return false;
 	}
+
 	
 	
 	

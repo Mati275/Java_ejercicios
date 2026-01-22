@@ -1,12 +1,18 @@
 package sessio2;
 
 public class Cell {
+	
+	// ATTRIBUTES
 	private char marker;
 	
-	// Constructor
+	// CONSTRUCTOR
 	public Cell () {
 		marker = ' ';
 	}
+	
+	// **********
+	// METHODS
+	// **********
 	
 	// Getters
 	public char getContent () { // returns attribute

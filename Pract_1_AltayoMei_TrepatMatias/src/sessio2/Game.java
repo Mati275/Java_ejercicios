@@ -4,18 +4,16 @@ import sessio2.Board;
 
 public class Game {
 
+	// ATTRIBUTES
 	private static char PLAYER1 = 'X';
 	private static char PLAYER2 = 'O';
-	
-	//TODO: Add attributes as described in document
-	
-	private Board board;
+		
+	private static Board board;
 	private char currentPlayer;
 	private char winner;
 	
-	//TODO: Add methods
 	
-	//CONSTRUCTOR
+	// CONSTRUCTOR
 	public Game() {
 		board = new Board();
 		
@@ -24,8 +22,12 @@ public class Game {
 		
 	}
 	
+	// **********
+	// METHODS
+	// **********
+	
 	// GETTERS
-	public int getBoardRow() {		
+	public static int getBoardRow() {		
 		return board.getNumRows();
 	}
 
