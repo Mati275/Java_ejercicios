@@ -61,10 +61,15 @@ public class Department {
 	 * @return
 	 */
 	public boolean addProfessor(Professor prof) {
-		
+		for (int i = 0; i < assignedProfessor.length; i++) {
+			if(assignedProfessor [i] .equals(prof) ) { // TODO: si no esta dentro == true
+				return true;
+			}
+		}
 		
 		return false; //TODO: Complete/update if necessary
 	}
+	
 	
 	/**
 	 * 
@@ -72,6 +77,21 @@ public class Department {
 	 * @return
 	 */
 	public boolean removeProfessor(Professor prof) {
+		
+		for (int i = 0; i < assignedProfessor.length; i++) { // Buscar el index prof para eliminar
+			
+			if (assignedProfessor [i] .equals (prof)) {
+				assignedProfessor [i] = null;
+			}
+		
+			for (int j = 0; j < assignedProfessor.length; j++) {
+				if (assignedProfessor [i] == null) {
+					assignedProfessor [i] = assignedProfessor [i+1];
+					return true;
+				}
+			}
+		
+		}
 		
 		return false; //TODO: Complete/update if necessary
 	}
