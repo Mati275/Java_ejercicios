@@ -1,7 +1,8 @@
 package domain;
 
 public class Professor {
-		//TODO: Add attributes and methods as described
+		
+	//ATTRIBUTES
 	
 	private String name, lastName, userName, title;
 	private double salary;
@@ -18,6 +19,10 @@ public class Professor {
 		this.salary = salary;
 	}
 	
+	
+	//*******
+	//METHODS
+	//*******
 	
 	//GETTERS
 	

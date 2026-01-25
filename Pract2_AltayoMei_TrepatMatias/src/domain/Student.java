@@ -2,7 +2,21 @@ package domain;
 
 public class Student {
     
-	//TODO: Complete with attributes and methods as described
+	//ATTRIBUTES
+
+	
+	private String name;
+	private String lastName;
+	private String username;
+	
+	private double [][] grades;
+	private Course [] courses;
+	private int numCourses;
+	
+	private static final int INCREMENT = 5;
+	
+	
+	
 	
 	
 }

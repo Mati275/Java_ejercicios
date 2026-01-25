@@ -2,7 +2,7 @@ package domain;
 
 public class Department {
 	
-	//TODO: Add attributes
+	//ATTRIBUTES
 	
 	private String name;
 	private University university;
@@ -52,7 +52,7 @@ public class Department {
 			return null;
 		}
 		
-		return assignedProfessor [position]; //TODO: Complete/update if necessary
+		return assignedProfessor[position]; //TODO: Complete/update if necessary
 	}
 	
 	/**
@@ -61,13 +61,27 @@ public class Department {
 	 * @return
 	 */
 	public boolean addProfessor(Professor prof) {
-		for (int i = 0; i < assignedProfessor.length; i++) {
-			if(assignedProfessor [i] .equals(prof) ) { // TODO: si no esta dentro == true
-				return true;
-			}
-		}
 		
-		return false; //TODO: Complete/update if necessary
+		// The professor is in the array of professors
+		if ( findProfessor(prof) != -1 ) {
+			return false; // The professor is already on the array of professors
+		} // The professor isn't on the array of professors
+		
+		
+		for (int i = 0; i < assignedProfessor.length; i++) {
+			
+			// Find the first void position
+			if(assignedProfessor[i] == null) {
+				
+				assignedProfessor[i] = prof;
+				numAsignedProfessor += 1;
+				return true; // The professor is successfully added
+				
+			}
+			
+		} // The array of professors is filled
+		
+		return false; // All the array is filled 
 	}
 	
 	
@@ -76,24 +90,37 @@ public class Department {
 	 * @param prof
 	 * @return
 	 */
+	
 	public boolean removeProfessor(Professor prof) {
+		int index_professor;
 		
-		for (int i = 0; i < assignedProfessor.length; i++) { // Buscar el index prof para eliminar
+		index_professor = findProfessor(prof);
 			
-			if (assignedProfessor [i] .equals (prof)) {
-				assignedProfessor [i] = null;
+		// If the professor it's found
+		if ( index_professor != -1 ) {
+			
+			numAsignedProfessor -= 1;
+			assignedProfessor [index_professor] = null; // Remove the professor
+			
+			
+			for (int j = index_professor; j < assignedProfessor.length - 1; j++) {
+				
+				assignedProfessor [j] = assignedProfessor [j+1];
+			
 			}
-		
-			for (int j = 0; j < assignedProfessor.length; j++) {
-				if (assignedProfessor [i] == null) {
-					assignedProfessor [i] = assignedProfessor [i+1];
-					return true;
-				}
+			
+			// If the array was filled before executing the method, set to null the last position to avoid repetition
+			if (assignedProfessor[assignedProfessor.length - 1] != null) {
+				assignedProfessor[assignedProfessor.length - 1] = null; 
 			}
+			
+			
+			return true; // The professor is successfully removed 
 		
-		}
+		} // The professor isn't found
 		
-		return false; //TODO: Complete/update if necessary
+		
+		return false; //The professor isn't found --> The professor isn't removed
 	}
 	
 	
@@ -104,14 +131,18 @@ public class Department {
 	 */
 	public int findProfessor(Professor prof) { 
 		for (int i = 0; i < assignedProfessor.length; i++) {
-			if (assignedProfessor [i] .equals (prof)) {
+			if ( assignedProfessor[i].equals( prof ) ) {
 				return i;
 			}
 		}
 		
-		return -1; //TODO: Complete/update if necessary
+		return -1; 
 	}
 	
 	
+	// ***********
+	// EXTRA METHODS
+	// ***********
+
 
 }

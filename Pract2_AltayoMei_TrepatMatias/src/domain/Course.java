@@ -2,7 +2,7 @@ package domain;
 
 public class Course {
 	
-	//TODO: Add attributes
+	//ATTRIBUTES
 	
 	private String name;
 	private Professor professor;
