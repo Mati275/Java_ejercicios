@@ -3,8 +3,6 @@ package domain;
 public class Student {
     
 	//ATTRIBUTES
-
-	
 	private String name;
 	private String lastName;
 	private String username;
@@ -15,7 +13,7 @@ public class Student {
 	
 	private static final int INCREMENT = 5;
 	
-	// CONSTRUCTOR
+	//ATTRIBUTES
 	public Student(String name, String lastName, String username) {
 		
 		this.name = name;
@@ -23,7 +21,18 @@ public class Student {
 		this.username = username;
 		
 		courses = new Course[5];
-		grades = getVoidGradesArray( 5, Course.MAX_ATTEMPTS );
+		
+		
+		grades = new double[5][Course.MAX_ATTEMPTS];
+				
+		
+		for (int i = 0; i < grades.length; i ++) {
+			
+			for (int j = 0; j < grades[i].length; j++) {
+				grades[i][j] = -1.0;
+			}
+			
+		}
 		
 	}
 	
@@ -47,6 +56,7 @@ public class Student {
 	}
 	
 	
+
 	
 	public int totalEnrolledCourses() {
 		
@@ -82,6 +92,7 @@ public class Student {
 	public double getGradeAvarage() {
 		double currentGrade;
 		double gradeAvarage = 0;
+		
 		int validCourses = 0;
 		
 		
@@ -115,25 +126,64 @@ public class Student {
 		// The course isn't on the array of courses
 		if( idxCourse == -1 ) {
 			
-			// The array of courses is full --> make it bigger this array and grades array (keeping the information)
+			// CASE 1: The array of courses is full && the course isn't on the array of courses --> make it bigger this array and grades array (keeping the information)
 			if( coursesIsFull() ) {
-				double [][] newGrades = getVoidGradesArray(grades.length + INCREMENT, Course.MAX_ATTEMPTS);
-				Course [] newCourses = new Course[courses.length + INCREMENT];
+				ampliateCoursesAndGrades(); // Ampliate the arrays
 				
-				 // Fill both arrays
+				// Put the course with the grade in both arrays
+				for( int i = 0; i < courses.length; i ++) {
+					// COMPULSORY ENTERS TO THIS IF CONDITION
+					if (courses[i] == null) {
+						
+						numCourses ++;
+						courses[i] = course;
+						grades[i][0] = grade;
+						return true;
+						
+					}
+				}
 				
-				
-				
-				
+				return false; // it's impossible to be here
+
 			}
 			
-			
-			
-			
+			// CASE 2: The array of courses isn't full && the course isn't on the array of courses
+			else {
+				// Put the course with the grade in both arrays
+				for( int i = 0; i < courses.length; i ++) {
+					// COMPULSORY ENTERS TO THIS IF CONDITION
+					if (courses[i] == null) {
+						
+						numCourses ++;
+						courses[i] = course;
+						grades[i][0] = grade;
+						return true;
+						
+					}
+				}
+				return false; // it's impossible to be here
+			}
+		
 		}
 		
-		
-		return false;
+		// The course is on the array of courses 
+		else {
+			
+			
+			for( int j = 0; j < grades[idxCourse].length; j ++ ) {
+				// CASE 3:  The course is on the array of courses && it's possible to add one more grade
+				if( grades[idxCourse][j] == -1.0 ) {
+					
+					numCourses ++;
+					grades[idxCourse][j] = grade;
+					return true;
+				}
+			}
+			
+			// CASE 4:  The course is on the array of courses  && it's NOT possible to add one more grade
+			return false;
+			
+		}
 	}
 	
 	
@@ -141,37 +191,7 @@ public class Student {
 	// EXTRA METHODS
 	//*******
 	
-	// Returns and array of grades that has all it's values in -1.0 (the "null" values in this array are set in -1.0)
-	private double[][] getVoidGradesArray( int rows, int columns ) {
-		double [][] newGrades = new double[rows][columns];
-		
-		for(int i = 0; i < newGrades.length; i++) {
-			for(int j = 0; j < newGrades[i].length; j++) {
-				
-				newGrades[i][j] = -1.0;
-				
-			}
-		}
-		
-		return newGrades;
-	}
-	
-//	private Course[] getVoidCoursesArray() {
-//		Course[] newCourse = new double[rows][columns];
-//		
-//		for(int i = 0; i < newGrades.length; i++) {
-//				
-//			newCourse[i] = -1.0;
-//				
-//			
-//		}
-//		
-//		return newGrades;
-//	
-//	}
-	
-	
-	
+
 	
 	// Get the specific idx of the course in the array of courses
 	private int getIdxCourse(Course course) {
@@ -194,7 +214,7 @@ public class Student {
 		
 		for (int i = 0; i < courses.length; i++) {
 			
-			if( courses[i] != null ) {
+			if( courses[i] == null ) {
 				return false;
 			}
 			
@@ -202,6 +222,46 @@ public class Student {
 		
 		return true;
 		
+	}
+	
+	
+	private void ampliateCoursesAndGrades() {
+		
+		double[][] newGrades = new double[grades.length + INCREMENT][Course.MAX_ATTEMPTS];
+		Course[] newCourses = new Course[courses.length + INCREMENT];
+		
+		// Fill newGrades (with the array that was created before)
+		
+		for ( int i = 0; i < grades.length ; i++ ) {
+			
+			for (int j = 0; i < grades[i].length; j++) {
+				newGrades[i][j] = grades[i][j];
+			}
+			
+		}
+		
+		// Fill the null values to -1.0 
+		for ( int i = grades.length; i < newGrades.length ; i++ ) {
+			
+			for (int j = 0; i < newGrades[i].length; j++) {
+				newGrades[i][j] = -1.0;
+			}
+			
+		}
+		
+		
+		// Fill newCourses
+		for ( int i = 0; i < courses.length ; i++ ) {
+			
+			newCourses[i] = courses[i];
+			
+		}
+		// Don't mind if there are null values in the array of new courses
+		
+		
+		// Asign the new arrays to the attributes
+		grades = newGrades;
+		courses = newCourses;	
 	}
 	
 	
