@@ -71,6 +71,7 @@ public class University {
 	 * @return
 	 */
 	public boolean containsProfessor(Professor professor) {
+		
 		for (int i = 0; i < professors.length; i++) {
 			if( professors[i].equals(professor) ) {
 				return true;
@@ -123,22 +124,16 @@ public class University {
 	 */
 	public boolean addCourse(Course course) { 
 		
-		// There isn't a duplicated value
-		if ( !containsCourse(course) ) {
+		// There isn't a duplicated value && The array isn't full (the next idx value is valid)
+		if ( !containsCourse(course) && numCourses < offeredCourses.length) {
 		
-			for (int i = 0; i < offeredCourses.length; i++) {
-				
-				// There is a null value --> the idx where can be placed the new value
-				if( offeredCourses[i] == null ) {
-					offeredCourses[i] = course;
-					numCourses ++;
-					return true;
-				}
-			}
+			offeredCourses[numCourses] = course;
+			numCourses ++;
 			
+			return true;
 		} 
 		
-		// The array is full || there is a duplicated value
+		// There is a duplicated value || the array is full 
 		return false; 
 		
 		
@@ -152,22 +147,16 @@ public class University {
 	 */
 	public boolean addStudent(Student student) {
 		
-		// There isn't a duplicated value
-		if ( !containsStudent(student) ) {
-			
-			for (int i = 0; i < enrolledStudents.length; i++) {
-
-				// There is a null value --> the idx where can be placed the new value
-				if( enrolledStudents[i] == null ) {
-					enrolledStudents[i] = student;
-					numStudent ++;
-					return true;
-				}
-			}
-			
-		}
+		// There isn't a duplicated value && The array isn't full (the next idx value is valid)
+		if ( !containsStudent(student) && numStudent < enrolledStudents.length) {
 		
-		// The array is full || there is a duplicated value
+			enrolledStudents[numCourses] = student;
+			numStudent++;
+			
+			return true;
+		} 
+		
+		// There is a duplicated value || the array is full 
 		return false; 
 	}
 	
@@ -179,23 +168,17 @@ public class University {
 	 */
 	public boolean addDepartment(Department department) { 
 		
-		// There isn't a duplicated value
-		if ( !containsDepartment(department) ) {
-			
-			for (int i = 0; i < departments.length; i++) {
-
-				// There is a null value --> the idx where can be placed the new value
-				if( departments[i] == null ) {
-					departments[i] = department;
-					numDepartments ++;
-					return true;
-				}
-			}
-			
-		}
+		// There isn't a duplicated value && The array isn't full (the next idx value is valid)
+		if ( !containsDepartment(department) && numDepartments < departments.length) {
 		
-		// The array is full || there is a duplicated value
-		return false; 
+			departments[numCourses] = department;
+			numDepartments++;
+			
+			return true;
+		} 
+		
+		// There is a duplicated value || the array is full 
+		return false;
 	}
 	
 	
@@ -206,7 +189,21 @@ public class University {
 	 * @return
 	 */
 	public boolean addProfessorToDepartment(Professor professor, Department department) {
-		return false; //TODO: Complete/update if necessary
+		
+		// There isn't a duplicated value &&  the department isn't full && The array isn't full (the next idx value is valid)
+		if( !containsProfessor( professor ) && !department.isFull() && numProfessors < professors.length) {
+			
+			professors[numProfessors] = professor;
+			numProfessors ++;
+			
+			department.addProfessor(professor);
+			return true;
+			
+		}
+		
+		// There is a duplicated value || the department is full || the array is full 
+		return false; 
+		
 	}
 	
 	
@@ -217,14 +214,20 @@ public class University {
 	 * @return True if professor has been changed correctly, false otherwise
 	 */
 	public boolean changeProfessorDepartment(Professor professor, Department originalDepartment, Department targetDepartment) {
-		return false; //TODO: Complete/update if necessary
+		
+		// The department contains the professor &&  the new department isn't full
+		if( originalDepartment.findProfessor(professor) != -1 && !targetDepartment.isFull() ) {
+			
+			originalDepartment.removeProfessor(professor);
+			targetDepartment.addProfessor(professor);
+			
+			return true;
+			
+		}
+		
+		// The originalDepartment don't contain the professor || the targetDepartment is full
+		return false; 		
 	}
-
-	
-	//*******
-	// EXTRA METHODS
-	//*******
-	
 
 	
 
