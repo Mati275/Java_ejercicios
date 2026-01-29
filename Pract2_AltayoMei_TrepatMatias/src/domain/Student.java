@@ -70,9 +70,10 @@ public class Student {
 		idxCourse = getIdxCourse(course);
 		
 		// The course it's found
-		if ( idxCourse != -1 ) {
+		// idxCourse != -1
+		if ( courses[idxCourse].equals(course) ) {
 			
-			// Start from the right int the row where the course is in the array of grades
+			// Start from the right in the row where the course is in the array of grades
 			for(int j = grades[idxCourse].length - 1; j >= 0 ; j --) {
 				
 				if ( grades[idxCourse][j] != -1.0 ) {
@@ -90,18 +91,18 @@ public class Student {
 	
 	
 	public double getGradeAvarage() {
-		double currentGrade;
-		double gradeAvarage = 0;
+		double currentFinalGrade; // La nota amb la que s'està operant en cada iteració
+		double gradeAvarage = 0; 
 		
-		int validCourses = 0;
+		int validCourses = 0; // Comptador de cuantes assignatures vàlides té l'estudiant
 		
-		
-		for (int i = 0; i < courses.length; i++) {
-			currentGrade = getLastGrade(courses[i]); // Get the number of the lastGrade in the course that is being checked
+		// Make a walkthrough until the last matriculate course
+		for (int i = 0; i < numCourses; i++) {
+			currentFinalGrade = getLastGrade(courses[i]); // Get the number of the lastGrade in the course that is being checked
 			
 			// If the course has any valid grade (the number is valid)
-			if( currentGrade != -1.0 ) {
-				gradeAvarage += currentGrade; // Add the number
+			if( currentFinalGrade != -1.0 ) {
+				gradeAvarage += currentFinalGrade; // Add the number
 				validCourses += 1; // Add 1 to the counter of valid courses
 			}
 			
@@ -130,43 +131,31 @@ public class Student {
 			if( coursesIsFull() ) {
 				ampliateCoursesAndGrades(); // Ampliate the arrays
 				
-				// Put the course with the grade in both arrays
-				for( int i = 0; i < courses.length; i ++) {
-					// COMPULSORY ENTERS TO THIS IF CONDITION
-					if (courses[i] == null) {
-						
-						numCourses ++;
-						courses[i] = course;
-						grades[i][0] = grade;
-						return true;
-						
-					}
-				}
+				// Put the course and the grade in both arrays
+				courses[numCourses] = course; // The first null position of the array add the course
+				numCourses ++;
 				
-				return false; // it's impossible to be here
+				grades[numCourses][0] = grade; // The first unvalid grade in the array of grades in column 0
+				
+				
+				return true; // it's impossible to be here
 
 			}
 			
 			// CASE 2: The array of courses isn't full && the course isn't on the array of courses
 			else {
+				
 				// Put the course with the grade in both arrays
-				for( int i = 0; i < courses.length; i ++) {
-					// COMPULSORY ENTERS TO THIS IF CONDITION
-					if (courses[i] == null) {
-						
-						numCourses ++;
-						courses[i] = course;
-						grades[i][0] = grade;
-						return true;
-						
-					}
-				}
-				return false; // it's impossible to be here
+				courses[numCourses] = course; // The first null position of the array add the course
+				numCourses ++;
+				
+				grades[numCourses][0] = grade; // The first unvalid grade in the array of grades in column 0
+				return true;
 			}
 		
 		}
 		
-		// The course is on the array of courses 
+		// The course is on the array of courses -> idxCourse != -1z
 		else {
 			
 			
@@ -174,7 +163,6 @@ public class Student {
 				// CASE 3:  The course is on the array of courses && it's possible to add one more grade
 				if( grades[idxCourse][j] == -1.0 ) {
 					
-					numCourses ++;
 					grades[idxCourse][j] = grade;
 					return true;
 				}
@@ -191,7 +179,6 @@ public class Student {
 	// EXTRA METHODS
 	//*******
 	
-
 	
 	// Get the specific idx of the course in the array of courses
 	private int getIdxCourse(Course course) {
