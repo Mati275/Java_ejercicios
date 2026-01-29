@@ -62,26 +62,29 @@ public class Department {
 	 */
 	public boolean addProfessor(Professor prof) {
 		
-		// The professor is in the array of professors
-		if ( findProfessor(prof) != -1 ) {
-			return false; // The professor is already on the array of professors
-		} // The professor isn't on the array of professors
-		
-		
-		for (int i = 0; i < assignedProfessor.length; i++) {
+		// The professor isn't in the array of professors && the array of professors is full
+		if ( findProfessor(prof) == -1 && isFull() ) {
 			
-			// Find the first void position
-			if(assignedProfessor[i] == null) {
-				
-				assignedProfessor[i] = prof;
-				numAsignedProfessor += 1;
-				return true; // The professor is successfully added
-				
-			}
+			// Num assignedProfessor is the first null index in the array if the array isn't full
+			assignedProfessor[numAsignedProfessor] = prof;
+			numAsignedProfessor ++;
+			return true; // The professor is successfully added
 			
-		} // The array of professors is filled
+//			for (int i = 0; i < assignedProfessor.length; i++) {
+//				
+//				// Find the first void position
+//				if( assignedProfessor[i] == null ) {
+//					
+//					assignedProfessor[i] = prof;
+//					numAsignedProfessor += 1;
+//					return true; // The professor is successfully added
+//					
+//				} 
+
+//			}
+		} // The array of professors is full || the professor isn't on the array of professors
 		
-		return false; // All the array is filled 
+		return false; // The array of professors is full || the professor isn't on the array of professors
 	}
 	
 	
@@ -92,27 +95,27 @@ public class Department {
 	 */
 	
 	public boolean removeProfessor(Professor prof) {
-		int index_professor;
+		int indexProfessor;
 		
-		index_professor = findProfessor(prof);
+		indexProfessor = findProfessor(prof);
 			
-		// If the professor it's found
-		if ( index_professor != -1 ) {
+		// If the professor it's found (the index found is the same as the object of the professor)
+		if ( getProfessor( indexProfessor ).equals( prof ) ) {
 			
-			numAsignedProfessor -= 1;
-			assignedProfessor [index_professor] = null; // Remove the professor
+			numAsignedProfessor --;
+			assignedProfessor [indexProfessor] = null; // Remove the professor
 			
-			
-			for (int j = index_professor; j < assignedProfessor.length - 1; j++) {
+			// Make a walkthrought, "i" is the index position to be replaced, replace all positions exept the last one which is filled (because it might be null if the array is full)
+			for (int i = indexProfessor; i < numAsignedProfessor; i++) {
 				
-				assignedProfessor [j] = assignedProfessor [j+1];
+				assignedProfessor [i] = assignedProfessor [i+1];
 			
 			}
 			
-			// If the array was filled before executing the method, set to null the last position to avoid repetition
-			if (assignedProfessor[assignedProfessor.length - 1] != null) {
-				assignedProfessor[assignedProfessor.length - 1] = null; 
-			}
+			// Set the last index + 1 position of the array to null, because it will be always be duplicated
+			
+			assignedProfessor[numAsignedProfessor] = null; 
+			
 			
 			
 			return true; // The professor is successfully removed 
@@ -138,11 +141,6 @@ public class Department {
 		
 		return -1; 
 	}
-	
-	
-	// ***********
-	// EXTRA METHODS
-	// ***********
 
 
 }
