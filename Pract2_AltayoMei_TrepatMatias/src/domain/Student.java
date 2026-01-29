@@ -90,7 +90,7 @@ public class Student {
 	}
 	
 	
-	public double getGradeAvarage() {
+	public double getGradeAverage() {
 		double currentFinalGrade; // La nota amb la que s'està operant en cada iteració
 		double gradeAvarage = 0; 
 		
@@ -133,10 +133,10 @@ public class Student {
 				
 				// Put the course and the grade in both arrays
 				courses[numCourses] = course; // The first null position of the array add the course
-				numCourses ++;
-				
 				grades[numCourses][0] = grade; // The first unvalid grade in the array of grades in column 0
 				
+				// ERROR: PUT THE ADDITION OF THE NUMBER OF COURSES AVOBE THE "grades[numCourses][0] = grade;"
+				numCourses ++;
 				
 				return true; // it's impossible to be here
 
@@ -145,11 +145,13 @@ public class Student {
 			// CASE 2: The array of courses isn't full && the course isn't on the array of courses
 			else {
 				
-				// Put the course with the grade in both arrays
+				// Put the course and the grade in both arrays
 				courses[numCourses] = course; // The first null position of the array add the course
+				grades[numCourses][0] = grade; // The first unvalid grade in the array of grades in column 0
+				
+				// ERROR: PUT THE ADDITION OF THE NUMBER OF COURSES AVOBE THE "grades[numCourses][0] = grade;"
 				numCourses ++;
 				
-				grades[numCourses][0] = grade; // The first unvalid grade in the array of grades in column 0
 				return true;
 			}
 		
@@ -184,7 +186,7 @@ public class Student {
 	private int getIdxCourse(Course course) {
 		
 
-		for(int i = 0; i < courses.length; i++) {
+		for(int i = 0; i < numCourses; i++) {
 			
 			if ( courses[i].equals(course) ) {
 				return i;

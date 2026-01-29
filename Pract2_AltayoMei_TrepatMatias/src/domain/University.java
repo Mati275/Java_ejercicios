@@ -56,7 +56,7 @@ public class University {
 	 */
 	public boolean containsDepartment(Department department) {
 		
-		for (int i = 0; i < departments.length; i++) {
+		for (int i = 0; i < numDepartments; i++) {
 			if( departments[i].equals(department) ) {
 				return true;
 			}
@@ -72,7 +72,7 @@ public class University {
 	 */
 	public boolean containsProfessor(Professor professor) {
 		
-		for (int i = 0; i < professors.length; i++) {
+		for (int i = 0; i < numProfessors; i++) {
 			if( professors[i].equals(professor) ) {
 				return true;
 			}
@@ -89,7 +89,7 @@ public class University {
 	 * @return
 	 */
 	public boolean containsCourse(Course course) {
-		for (int i = 0; i < offeredCourses.length; i++) {
+		for (int i = 0; i < numCourses; i++) {
 			if( offeredCourses[i].equals(course) ) {
 				return true;
 			}
@@ -106,7 +106,7 @@ public class University {
 	 * @return
 	 */
 	public boolean containsStudent(Student student) {
-		for (int i = 0; i < enrolledStudents.length; i++) {
+		for (int i = 0; i < numStudent; i++) {
 			if( enrolledStudents[i].equals(student) ) {
 				return true;
 			}

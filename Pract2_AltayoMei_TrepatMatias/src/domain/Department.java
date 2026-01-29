@@ -62,8 +62,8 @@ public class Department {
 	 */
 	public boolean addProfessor(Professor prof) {
 		
-		// The professor isn't in the array of professors && the array of professors is full
-		if ( findProfessor(prof) == -1 && isFull() ) {
+		// The professor isn't in the array of professors && the array of professors isn't full
+		if ( findProfessor(prof) == -1 && !isFull() ) {
 			
 			// Num assignedProfessor is the first null index in the array if the array isn't full
 			assignedProfessor[numAsignedProfessor] = prof;
@@ -133,7 +133,7 @@ public class Department {
 	 * @return -1 if professor is not part of the department, their position on the vector otherwise
 	 */
 	public int findProfessor(Professor prof) { 
-		for (int i = 0; i < assignedProfessor.length; i++) {
+		for (int i = 0; i < numAsignedProfessor; i++) {
 			if ( assignedProfessor[i].equals( prof ) ) {
 				return i;
 			}
