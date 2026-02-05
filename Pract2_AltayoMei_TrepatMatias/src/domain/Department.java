@@ -61,10 +61,10 @@ public class Department {
 	 * @return
 	 */
 	public boolean addProfessor(Professor prof) {
-		for (int i = 0; i < assignedProfessor.length; i++) {
-			if(assignedProfessor [i] .equals(prof) ) { // TODO: si no esta dentro == true
-				return true;
-			}
+		if (isFull() && findProfessor(prof) == -1) {
+			assignedProfessor [numAsignedProfessor] = prof;
+			numAsignedProfessor++;
+			return true;
 		}
 		
 		return false; //TODO: Complete/update if necessary
@@ -77,23 +77,22 @@ public class Department {
 	 * @return
 	 */
 	public boolean removeProfessor(Professor prof) {
-		
-		for (int i = 0; i < assignedProfessor.length; i++) { // Buscar el index prof para eliminar
+		int idxProf = findProfessor(prof);
+		if (idxProf >= 0) {
+			assignedProfessor [idxProf] = null;
+			numAsignedProfessor--;
 			
-			if (assignedProfessor [i] .equals (prof)) {
-				assignedProfessor [i] = null;
+			for(int i = idxProf; i < numAsignedProfessor; i++) {
+				assignedProfessor [i] = assignedProfessor [i+1];
 			}
-		
-			for (int j = 0; j < assignedProfessor.length; j++) {
-				if (assignedProfessor [i] == null) {
-					assignedProfessor [i] = assignedProfessor [i+1];
-					return true;
-				}
-			}
-		
+			
+			assignedProfessor [numAsignedProfessor] = null;
+			
+			return true;
 		}
 		
-		return false; //TODO: Complete/update if necessary
+		
+		return false;
 	}
 	
 	
@@ -103,7 +102,7 @@ public class Department {
 	 * @return -1 if professor is not part of the department, their position on the vector otherwise
 	 */
 	public int findProfessor(Professor prof) { 
-		for (int i = 0; i < assignedProfessor.length; i++) {
+		for (int i = 0; i < numAsignedProfessor; i++) {
 			if (assignedProfessor [i] .equals (prof)) {
 				return i;
 			}
