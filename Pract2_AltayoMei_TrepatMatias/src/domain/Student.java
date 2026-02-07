@@ -121,12 +121,6 @@ public class Student {
 	
 	
 	
-	
-	
-	
-	
-	
-	
 	//*******
 	//EXTRA METHODS
 	//*******
@@ -174,11 +168,6 @@ public class Student {
 		grades = moreGrades;
 		
 	}
-	
-	
-	
-	
-	
-	
+		
 	
 }
