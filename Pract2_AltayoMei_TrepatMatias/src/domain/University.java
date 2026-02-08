@@ -1,7 +1,5 @@
 package domain;
 
-import java.net.spi.InetAddressResolver;
-
 public class University {
 	
 	//ATTRIBUTES
@@ -13,26 +11,37 @@ public class University {
 	private Department[] departments;
 	 
 	private int numCourses;
-	private int numStudent;
+	private int numStudents;
 	private int numProfessors;
 	private int numDepartments;
 	
 	//ATTRIBUTES
-	public University(String name, String address) {
+	
+	// Main constructor
+	public University(String name, String address, int maxStudents,
+			int maxCourses, int maxProfessors, int maxDepartments) {
+		
 		this.name = name;
 		this.address = address;
 		
-		offeredCourses = new Course[10];
-		enrolledStudents = new Student[100];
-		professors = new Professor[30];
-		departments = new Department[3];
+		offeredCourses = new Course[maxCourses];
+		enrolledStudents = new Student[maxStudents];
+		professors = new Professor[maxProfessors];
+		departments = new Department[maxDepartments];
 		
 		numCourses = 0;
-		numStudent = 0;
+		numStudents = 0;
 		numProfessors = 0;
 		numDepartments = 0;
 		
 	}
+	
+	// Sub constructor, less parameters (Sobrecàrrega del constructor)
+	public University(String name, String address) {
+		this(name, address, 100, 10, 30, 3);
+	}
+	
+
 	
 	//*******
 	//METHODS
@@ -48,6 +57,9 @@ public class University {
 	public String getAddress() {
 		return address; 
 	}
+	
+
+	// OTHER METHODS	
 	
 	/**
 	 * Returns true if department already exists, false otherwise
@@ -106,7 +118,7 @@ public class University {
 	 * @return
 	 */
 	public boolean containsStudent(Student student) {
-		for (int i = 0; i < numStudent; i++) {
+		for (int i = 0; i < numStudents; i++) {
 			if( enrolledStudents[i].equals(student) ) {
 				return true;
 			}
@@ -148,10 +160,10 @@ public class University {
 	public boolean addStudent(Student student) {
 		
 		// There isn't a duplicated value && The array isn't full (the next idx value is valid)
-		if ( !containsStudent(student) && numStudent < enrolledStudents.length) {
+		if ( !containsStudent(student) && numStudents < enrolledStudents.length) {
 		
 			enrolledStudents[numCourses] = student;
-			numStudent++;
+			numStudents++;
 			
 			return true;
 		} 
@@ -230,5 +242,58 @@ public class University {
 	}
 
 	
+	@Override
+	public boolean equals(Object obj) {
+		
+		// Declare a variable of University
+		University university;
+		
+		// If the object is not a University
+		if (  !( obj instanceof University ) ) {
+			return false;
+		}
+		// Change(compulsory) the type of the parameter to a university, to get the help of the methods
+		university = (University) obj;
+		
+		// The names are the same
+		if ( this.name.equals(university.name) ) {
+			return true; 
+		}
+		
+		// The names aren't the same
+		return false;
+		
+	}
+	
+	@Override
+	public String toString() {
+		return name + "\nAddress: " + address + "\nNum courses: " + numCourses + "\tNum departments: " + numDepartments + "\tNum professors: " + numProfessors + "\tNum Students: " + numStudents;
+	}
+	
+	
+	public boolean isLinkedToUni( Person person ) {
+		
+		// The person can only be Professor or Student
+		
+		// If the person is a professor --> check professors
+		if( (person instanceof Professor) ) {
+			for (int i = 0; i < numProfessors; i++) {
+				if( professors[i].equals(person) ) {
+					return true;
+				}
+			}
+		}
+		
+		// If the person is a student --> check students
+		else {
+			for (int i = 0; i < numStudents; i++) {
+				if( enrolledStudents[i].equals(person) ) {
+					return true;
+				}
+			}
+		}
+		// Is not in this university
+		return false;
+	}
 
 }

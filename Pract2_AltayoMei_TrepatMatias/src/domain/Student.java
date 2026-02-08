@@ -1,24 +1,18 @@
 package domain;
 
-public class Student {
+public class Student extends Person{
     
 	//ATTRIBUTES
-	private String name;
-	private String lastName;
-	private String username;
-	
 	private double [][] grades;
 	private Course [] courses;
 	private int numCourses;
 	
 	private static final int INCREMENT = 5;
 	
-	//ATTRIBUTES
+	//CONSTRUCTOR
 	public Student(String name, String lastName, String username) {
 		
-		this.name = name;
-		this.lastName = lastName;
-		this.username = username;
+		super(name, lastName, username);
 		
 		courses = new Course[5];
 		
@@ -41,29 +35,15 @@ public class Student {
 	//METHODS
 	//*******
 	
-	// GETTERS
-	
-	public String getName() {
-		return name;
-	}
-	
-	public String getlastName() {
-		return lastName;
-	}
-	
-	public String getUsername() {
-		return username;
-	}
-	
-	
-
-	
+	// GETTERS	
 	public int totalEnrolledCourses() {
 		
 		return numCourses; // TODO: CHECK IF THIS IS GOOD
 		
 	}
 	
+	
+	// OTHER METHODS
 	public double getLastGrade(Course course) {
 		int idxCourse;
 		
@@ -117,8 +97,7 @@ public class Student {
 		// If there isn't any valid course
 		return -1.0;
 		
-	}
-	
+	}                       	
 	
 	public boolean addGradeToCourse(Course course, double grade) {
 		int idxCourse;
@@ -128,34 +107,24 @@ public class Student {
 		if( idxCourse == -1 ) {
 			
 			// CASE 1: The array of courses is full && the course isn't on the array of courses --> make it bigger this array and grades array (keeping the information)
-			if( coursesIsFull() ) {
+			if( courses.length == numCourses ) {
 				ampliateCoursesAndGrades(); // Ampliate the arrays
-				
-				// Put the course and the grade in both arrays
-				courses[numCourses] = course; // The first null position of the array add the course
-				grades[numCourses][0] = grade; // The first unvalid grade in the array of grades in column 0
-				
-				// ERROR: PUT THE ADDITION OF THE NUMBER OF COURSES AVOBE THE "grades[numCourses][0] = grade;"
-				numCourses ++;
-				
-				return true; // it's impossible to be here
-
 			}
 			
-			// CASE 2: The array of courses isn't full && the course isn't on the array of courses
-			else {
+			// CASE 2: The array of courses isn't full && the course isn't on the array of courses (also the case one execute that code)
 				
-				// Put the course and the grade in both arrays
-				courses[numCourses] = course; // The first null position of the array add the course
-				grades[numCourses][0] = grade; // The first unvalid grade in the array of grades in column 0
+			// Put the course and the grade in both arrays
+			courses[numCourses] = course; // The first null position of the array add the course
+			grades[numCourses][0] = grade; // The first unvalid grade in the array of grades in column 0
 				
-				// ERROR: PUT THE ADDITION OF THE NUMBER OF COURSES AVOBE THE "grades[numCourses][0] = grade;"
-				numCourses ++;
+			// ERROR: PUT THE ADDITION OF THE NUMBER OF COURSES AVOBE THE "grades[numCourses][0] = grade;"
+			numCourses ++;
 				
-				return true;
+			return true;
+			//TODO: Se puede simplificar mas
 			}
 		
-		}
+		
 		
 		// The course is on the array of courses -> idxCourse != -1z
 		else {
@@ -174,6 +143,18 @@ public class Student {
 			return false;
 			
 		}
+	}
+	
+	
+	@Override
+	public String getEmail() {
+		// TODO: Revisar si han de ser atributs privats o protected els de la classe Person
+		return getUsername() + "@stu.university.edu";
+	}
+	
+	@Override
+	public String toString() {
+		return super.toString() + "\tNum courses: " + numCourses;
 	}
 	
 	
@@ -198,25 +179,9 @@ public class Student {
 		
 	}
 	
-	// Check if the array of courses is full
-	private boolean coursesIsFull() {
-		
-		for (int i = 0; i < courses.length; i++) {
-			
-			if( courses[i] == null ) {
-				return false;
-			}
-			
-		}
-		
-		return true;
-		
-	}
-	
-	
 	private void ampliateCoursesAndGrades() {
 		
-		double[][] newGrades = new double[grades.length + INCREMENT][Course.MAX_ATTEMPTS];
+		double[][] newGrades = new double[grades.length + INCREMENT][grades[0].length];
 		Course[] newCourses = new Course[courses.length + INCREMENT];
 		
 		// Fill newGrades (with the array that was created before)

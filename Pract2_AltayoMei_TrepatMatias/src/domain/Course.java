@@ -33,5 +33,38 @@ public class Course {
 	public Professor getProfessor() {
 		return professor; //TODO: Complete/update if necessary
 	}
+	
+	// OTHER METHODS
 
+	
+	@Override
+	public boolean equals(Object obj) {
+		
+		// Declare a variable of Course
+		Course course;
+		
+		// If the object is not a Course
+		if (  !( obj instanceof Course ) ) {
+			return false;
+		}
+		// Change(compulsory) the type of the parameter to a Course, to get the help of the methods
+		course = (Course) obj;
+		
+		// The names are the same
+		if ( this.name.equalsIgnoreCase(course.name) ) {
+			return true; 
+		}
+		
+		// The names aren't the same
+		return false;
+		
+	}
+	
+	@Override
+	public String toString() {
+		// We're using the individual methods because professor.getDisplayName() includes it's title
+		return name + "\tProfessor: " + professor.getName() + " " + professor.getLastName();
+	}
+	
+	
 }

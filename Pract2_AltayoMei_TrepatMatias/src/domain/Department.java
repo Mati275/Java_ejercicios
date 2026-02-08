@@ -37,6 +37,9 @@ public class Department {
 		return numAsignedProfessor; //TODO: Complete/update if necessary
 	}
 	
+	
+	// OTHER METHODS
+	
 	public boolean isFull() {
 		for(int i = 0; i < assignedProfessor.length; i++) {
 			if (assignedProfessor [i] == null) {  //if one element of assignedProfessor is empty
@@ -141,6 +144,36 @@ public class Department {
 		
 		return -1; 
 	}
-
+	
+	
+	@Override
+	public boolean equals(Object obj) {
+		
+		// Declare a variable of Department
+		Department department;
+		
+		// If the object is not a Department
+		if (  !( obj instanceof Department ) ) {
+			return false;
+		}
+		// Change(compulsory) the type of the parameter to a Department, to get the help of the methods
+		department = (Department) obj;
+		
+		// The names are the same and the university is the same (comparing the universities with the operand .equals inside the class of University)
+		if ( this.name.equalsIgnoreCase(department.name) && this.university.equals(department.university) ) {
+			return true; 
+		}
+		
+		// The names aren't the same
+		return false;
+		
+	}
+	
+	@Override
+	public String toString() {
+		return name + " (" + university.getName() + ")\t Num assigned professors: " + numAsignedProfessor;
+	}
+	
+	
 
 }
