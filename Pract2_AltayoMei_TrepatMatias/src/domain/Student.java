@@ -188,7 +188,7 @@ public class Student extends Person{
 		
 		for ( int i = 0; i < grades.length ; i++ ) {
 			
-			for (int j = 0; i < grades[i].length; j++) {
+			for (int j = 0; j < grades[i].length; j++) {
 				newGrades[i][j] = grades[i][j];
 			}
 			
