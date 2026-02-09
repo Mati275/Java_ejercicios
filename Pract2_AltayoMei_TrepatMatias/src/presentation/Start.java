@@ -105,10 +105,8 @@ public class Start {
 		System.out.println( studentOne.getGradeAverage() );
 
 
-
-
 		
-		// Info. of the university
+		// Info. of the university --> University partially filled
 		System.out.println( university.toString() );
 
 	}
