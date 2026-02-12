@@ -1,6 +1,6 @@
 package domain;
 
-public abstract class Person {
+public abstract class Person  {
 
 	//ATTRIBUTES
 	private String name, lastName, username;

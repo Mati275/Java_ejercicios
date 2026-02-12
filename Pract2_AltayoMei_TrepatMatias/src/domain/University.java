@@ -36,7 +36,7 @@ public class University {
 		
 	}
 	
-	// Sub constructor, less parameters (Sobrecàrrega del constructor)
+	// "Sub constructor", less parameters (Sobrecàrrega del constructor)
 	public University(String name, String address) {
 		this(name, address, 100, 10, 30, 3);
 	}
@@ -284,7 +284,7 @@ public class University {
 			}
 		}
 		
-		// If the person is a student --> check students
+		// If the person is a student (can't be any other instance instead of Professor or Student, because Person is abstract) --> check students
 		else {
 			for (int i = 0; i < numStudents; i++) {
 				if( enrolledStudents[i].equals(person) ) {

@@ -10,10 +10,8 @@ public class Course {
 	public static final int MAX_ATTEMPTS = 5;
 	
 	
-	//CONSTRUCTOR
-	
+	//CONSTRUCTOR	
 	public Course(String name, Professor prof) {
-		//TODO: Complete
 		this.name = name;
 		this.professor = prof;
 	}

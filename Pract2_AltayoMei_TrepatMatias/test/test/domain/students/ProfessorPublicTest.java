@@ -54,7 +54,7 @@ public class ProfessorPublicTest {
     
     @Test
     void testEqualsSameObject() {
-        Student p = new Professor("Mark", "Twain", "mtwain","Dr.",50000);
+        Professor p = new Professor("Mark", "Twain", "mtwain","Dr.",50000);
 
         assertEquals(p, p);
     }

@@ -6,7 +6,7 @@ public class Department {
 	
 	private String name;
 	private University university;
-	private Professor assignedProfessor [];
+	private Professor assignedProfessors [];
 	private int numAsignedProfessor;
 	private static final int MAX_CAPACITY = 100;
 
@@ -17,7 +17,7 @@ public class Department {
 		this.name = name;
 		this.university = university;
 		
-		assignedProfessor = new Professor [MAX_CAPACITY];
+		assignedProfessors = new Professor [MAX_CAPACITY];
 		
 		numAsignedProfessor = 0;
 	}
@@ -30,32 +30,32 @@ public class Department {
 	
 	// GETTERS
 	public String getName() {
-		return name; //TODO: Complete/update if necessary
+		return name; 
 	}
 	
 	public int getNumProfessors() {
-		return numAsignedProfessor; //TODO: Complete/update if necessary
+		return numAsignedProfessor; 
 	}
 	
 	
 	// OTHER METHODS
 	
 	public boolean isFull() {
-		for(int i = 0; i < assignedProfessor.length; i++) {
-			if (assignedProfessor [i] == null) {  //if one element of assignedProfessor is empty
-				return false;
+		for(int i = 0; i < assignedProfessors.length; i++) {
+			if (assignedProfessors [i] == null) {  
+				return false; // If one element of assignedProfessors vector is empty
 			}
 		}
 		
-		return true; //TODO: Complete/update if necessary
+		return true; // All the elements of assignedProfessors vector are filled
 	} 
 	
 	public Professor getProfessor(int position) {
-		if (position < 0 || position >= 100) {
+		if (position < 0 || position > 99) {
 			return null;
 		}
 		
-		return assignedProfessor[position]; //TODO: Complete/update if necessary
+		return assignedProfessors[position]; 
 	}
 	
 	/**
@@ -68,23 +68,10 @@ public class Department {
 		// The professor isn't in the array of professors && the array of professors isn't full
 		if ( findProfessor(prof) == -1 && !isFull() ) {
 			
-			// Num assignedProfessor is the first null index in the array if the array isn't full
-			assignedProfessor[numAsignedProfessor] = prof;
+			assignedProfessors[numAsignedProfessor] = prof; // Num assignedProfessor is the first null index in the array if the array isn't full
 			numAsignedProfessor ++;
 			return true; // The professor is successfully added
 			
-//			for (int i = 0; i < assignedProfessor.length; i++) {
-//				
-//				// Find the first void position
-//				if( assignedProfessor[i] == null ) {
-//					
-//					assignedProfessor[i] = prof;
-//					numAsignedProfessor += 1;
-//					return true; // The professor is successfully added
-//					
-//				} 
-
-//			}
 		} // The array of professors is full || the professor isn't on the array of professors
 		
 		return false; // The array of professors is full || the professor isn't on the array of professors
@@ -105,19 +92,18 @@ public class Department {
 		// If the professor it's found (the index found is the same as the object of the professor)
 		if ( getProfessor( indexProfessor ).equals( prof ) ) {
 			
+			assignedProfessors [indexProfessor] = null; // Remove the professor
 			numAsignedProfessor --;
-			assignedProfessor [indexProfessor] = null; // Remove the professor
-			
+
 			// Make a walkthrought, "i" is the index position to be replaced, replace all positions exept the last one which is filled (because it might be null if the array is full)
 			for (int i = indexProfessor; i < numAsignedProfessor; i++) {
 				
-				assignedProfessor [i] = assignedProfessor [i+1];
+				assignedProfessors [i] = assignedProfessors [i+1];
 			
 			}
 			
 			// Set the last index + 1 position of the array to null, because it will be always be duplicated
-			
-			assignedProfessor[numAsignedProfessor] = null; 
+			assignedProfessors[numAsignedProfessor] = null; 
 			
 			
 			
@@ -137,7 +123,7 @@ public class Department {
 	 */
 	public int findProfessor(Professor prof) { 
 		for (int i = 0; i < numAsignedProfessor; i++) {
-			if ( assignedProfessor[i].equals( prof ) ) {
+			if ( assignedProfessors[i].equals( prof ) ) {
 				return i;
 			}
 		}

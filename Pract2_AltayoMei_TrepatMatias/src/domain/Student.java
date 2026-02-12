@@ -19,7 +19,7 @@ public class Student extends Person{
 		
 		grades = new double[5][Course.MAX_ATTEMPTS];
 				
-		
+		// Fill the array of grades
 		for (int i = 0; i < grades.length; i ++) {
 			
 			for (int j = 0; j < grades[i].length; j++) {
@@ -37,25 +37,25 @@ public class Student extends Person{
 	
 	// GETTERS	
 	public int totalEnrolledCourses() {
-		
-		return numCourses; // TODO: CHECK IF THIS IS GOOD
-		
+		return numCourses;
 	}
 	
 	
 	// OTHER METHODS
+	
+	
 	public double getLastGrade(Course course) {
 		int idxCourse;
 		
 		idxCourse = getIdxCourse(course);
 		
-		// The course it's found
-		// idxCourse != -1
+		// The course it's found --> idxCourse > -1
 		if ( courses[idxCourse].equals(course) ) {
 			
 			// Start from the right in the row where the course is in the array of grades
 			for(int j = grades[idxCourse].length - 1; j >= 0 ; j --) {
 				
+				// Find a valid grade (the last one)
 				if ( grades[idxCourse][j] != -1.0 ) {
 					return grades[idxCourse][j];
 				}
@@ -116,25 +116,25 @@ public class Student extends Person{
 			// Put the course and the grade in both arrays
 			courses[numCourses] = course; // The first null position of the array add the course
 			grades[numCourses][0] = grade; // The first unvalid grade in the array of grades in column 0
-				
-			// ERROR: PUT THE ADDITION OF THE NUMBER OF COURSES AVOBE THE "grades[numCourses][0] = grade;"
+			
+			
+
+			
 			numCourses ++;
 				
 			return true;
-			//TODO: Se puede simplificar mas
 			}
 		
 		
 		
-		// The course is on the array of courses -> idxCourse != -1z
+		// The course is on the array of courses -> idxCourse != -1
 		else {
-			
 			
 			for( int j = 0; j < grades[idxCourse].length; j ++ ) {
 				// CASE 3:  The course is on the array of courses && it's possible to add one more grade
-				if( grades[idxCourse][j] == -1.0 ) {
-					
+				if( grades[idxCourse][j] == -1.0 ) {		
 					grades[idxCourse][j] = grade;
+
 					return true;
 				}
 			}
@@ -197,11 +197,12 @@ public class Student extends Person{
 		// Fill the null values to -1.0 
 		for ( int i = grades.length; i < newGrades.length ; i++ ) {
 			
-			for (int j = 0; i < newGrades[i].length; j++) {
+			for (int j = 0; j < newGrades[i].length; j++) {
 				newGrades[i][j] = -1.0;
 			}
 			
 		}
+		
 		
 		
 		// Fill newCourses
@@ -216,6 +217,9 @@ public class Student extends Person{
 		// Asign the new arrays to the attributes
 		grades = newGrades;
 		courses = newCourses;	
+		
+		
+
 	}
 	
 	

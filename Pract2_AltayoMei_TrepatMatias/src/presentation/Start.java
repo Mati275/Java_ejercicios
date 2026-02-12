@@ -13,6 +13,7 @@ public class Start {
 		Student studentOne, studentTwo;
 		Course maths, poo, english, history, computers, videogameDesign;
 		
+		
 		// Creating a university --> University void
 		university = new University("Tecnocampus", "Mataró");
 		System.out.println( university.toString() );
@@ -21,18 +22,12 @@ public class Start {
 		tecnology = new Department("Tecnology", university);
 		business = new Department("Business", university);
 		
-		System.out.println( tecnology.toString() );
-		System.out.println( business.toString() );
-		
 		university.addDepartment(tecnology);
 		university.addDepartment(business);
 		
 		// Creating the professors
 		profOne = new Professor("Mario", "Torres", "mTorres", "Dr.");
 		profTwo = new Professor("Julia", "García", "jGarcia", "Prof.");
-
-		System.out.println( profOne.toString() );
-		System.out.println( profTwo.toString() );
 		
 		university.addProfessorToDepartment(profOne, tecnology);
 		university.addProfessorToDepartment(profTwo, tecnology);
@@ -40,12 +35,21 @@ public class Start {
 		// Creating the students
 		studentOne = new Student("Maria", "Álvarez", "mAlvarez");
 		studentTwo = new Student("Juan", "Pérez", "jPerez");
-		
-		System.out.println( studentOne.toString() );
-		System.out.println( studentTwo.toString() );
+
 		
 		university.addStudent(studentOne);
 		university.addStudent(studentTwo);
+		
+		
+		// Printing the departments, professors and students
+		System.out.println( tecnology.toString() );
+		System.out.println( business.toString() );
+		
+		System.out.println( profOne.toString() );
+		System.out.println( profTwo.toString() );
+		
+		System.out.println( studentOne.toString() );
+		System.out.println( studentTwo.toString() );
 		
 		// Creating the Courses
 		maths = new Course("maths", profOne);
@@ -55,29 +59,29 @@ public class Start {
 		computers = new Course("computers", profTwo);
 		videogameDesign = new Course("videogameDesign", profTwo);
 		
-		System.out.println( maths.toString() );
-		System.out.println( poo.toString() );
-		System.out.println( english.toString() );
-		System.out.println( history.toString() );
-		System.out.println( computers.toString() );
-		System.out.println( videogameDesign.toString() );
-
 		university.addCourse(maths);
 		university.addCourse(poo);
 		university.addCourse(english);
 		university.addCourse(history);
 		university.addCourse(computers);
 		university.addCourse(videogameDesign);
-
+		
+		// Printing the courses
+		System.out.println( maths.toString() );
+		System.out.println( poo.toString() );
+		System.out.println( english.toString() );
+		System.out.println( history.toString() );
+		System.out.println( computers.toString() );
+		System.out.println( videogameDesign.toString() );
 		
 		
 		// Adding the courses to one student
-		studentOne.addGradeToCourse(maths, -1);
-		studentOne.addGradeToCourse(poo, -1);
-		studentOne.addGradeToCourse(english, -1);
-		studentOne.addGradeToCourse(history, -1);
-		studentOne.addGradeToCourse(computers, -1);
-		studentOne.addGradeToCourse(videogameDesign, -1);
+		studentOne.addGradeToCourse(maths, -1.0);
+		studentOne.addGradeToCourse(poo, -1.0);
+		studentOne.addGradeToCourse(english, -1.0);
+		studentOne.addGradeToCourse(history, -1.0);
+		studentOne.addGradeToCourse(computers, -1.0);
+		studentOne.addGradeToCourse(videogameDesign, -1.0);
 		
 		System.out.println( studentOne.toString() );
 		

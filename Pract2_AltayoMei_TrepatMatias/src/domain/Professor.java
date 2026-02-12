@@ -19,7 +19,7 @@ public class Professor extends Person{
 		this.salary = salary;
 	}
 	
-	// Sub constructor, less parameters (Sobrecàrrega del constructor)
+	// "Sub constructor", less parameters (Sobrecàrrega del constructor)
 	public Professor(String name, String lastName, String userName, String title) {
 		this(name, lastName, userName, title, 30000);
 	}
