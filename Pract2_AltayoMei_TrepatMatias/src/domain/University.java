@@ -183,33 +183,21 @@ public class University {
 	 * @return
 	 */
 	public boolean addProfessorToDepartment(Professor professor, Department department) {
-		for (int i = 0; i < professors.length; i++) { //recorre los profesores
-			//Pertetece a la univerdidad
-			if (professors[i].equals(professor)) {
+		//Pertetece al depar. o depart. lleno
+		if (department.isFull() || department.findProfessor(professor) != -1) {
 				return false;
-			}
-		}
-		
-//		//Departamento si esta lleno
-		for (int i = 0; i < departments.length; i++) { 
-			if (departments[i] != null) {
-				return false;
-			}
 		}
 		
 		// max de prof
-		for (int i = 0; i < professors.length; i++) { 
-			if (professors[i] == null) {
-				professors[i] = professor; 
-				return true; 
-			} 
-		}
+		professors[numProfessors] = professor; 
+		numProfessors++;
+		department.addProfessor(professor);
+		
+		return true; 
+		
 				
-				
-		return false; //TODO: Complete/update if necessary
 	}
 	
-
 
 
 	/**
@@ -219,10 +207,26 @@ public class University {
 	 * @return True if professor has been changed correctly, false otherwise
 	 */
 	public boolean changeProfessorDepartment(Professor professor, Department originalDepartment, Department targetDepartment) {
+		//Comprobar si no esta dentro del departament o target esta lleno
+		if(originalDepartment.findProfessor(professor) == -1 || targetDepartment.isFull()) {
+			return false;
+			
+		} 
 		
+		//Elimina el prof del departamento original, añade el prof, al nuevo dep
 		
-		return false; //TODO: Complete/update if necessary
+		originalDepartment.removeProfessor(professor);
+		targetDepartment.addProfessor(professor);
+		
+		return true;
+		
+		 //TODO: Complete/update if necessary
 	}
-
-
 }
+	
+	
+	
+	
+	
+
+
