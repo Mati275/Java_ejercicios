@@ -54,6 +54,25 @@ public class CityType {
 		
 	}
 	
+	public String getId () {
+		return id;
+	}
+	
+	public String getName() {
+		return name;
+	}
+	
+	public int getSize() {
+		return size;
+	}
+	
+	public int getHeight() {
+		return height;
+	}
+	
+	public int getWidth() {
+		return width;
+	}
 	
 	
 	
