@@ -5,19 +5,24 @@ public class City {
 	private CityType cityType; //representa el tipo de ciudad
 	private int id; //id de asignar ciudad
 	private int discoveredCells; //numero de celdas que descubrió el jugador
-	private CityType state; //estado de la ciudad
+	private CityState state; //estado de la ciudad
 	
 	private static int usedIds; //proximo id disponible pera crear una nueva ciudad
 	
 	//CONSTRUCTOR
 	
-	public City (CityType cityType, int discoberyCells, int id) {
-		discoberyCells = 0;
+	public City (CityType cityType) {
+		this.cityType= cityType; 
+		
+		discoveredCells = 0;
 		id = usedIds;
 		usedIds++;
-		//CitySate.DORMANT = 0;
+		
+		state = CityState.DORMANT;
 			
-		}
+	}
+	
+	
 		
 	// *******
 	// METHODS
@@ -31,40 +36,75 @@ public class City {
 		return cityType; 
 	}
 	
-	public CityType getCityTypeName() {
-		return cityType;
+	public String getCityTypeld () {
+		return cityType.getId();
 	}
 	
-	public CityType getSize() {
-		return size; //return  mida
+	public String getCityTypeName() {
+		return cityType.getName();
 	}
 	
-	public CityState getIsInfected() {
-		if(CityState.INFECTED) {
-		return true;
-		}
+	public int getSize() {
+		return cityType.getSize(); //return  mida
 	}
 	
-	public CityState hasBeenSaved() {
-		if (CityState.CLEARED) {
+	public boolean isInfected() {
+		if(state == CityState.INFECTED) {
 			return true;
 		}
+		
+		return false;
+	}
+	
+	public boolean hasBeenSaved() {
+		if (CityState.CLEARED == state) {
+			return true;
+		}
+		
+		return false;
 	}
 	
 	public boolean infect() {
-		if (CityState.DORMANT && discoveredCells) {
-		return true; //Infectada
+		if (CityState.DORMANT == state) {
+			state = CityState.INFECTED;
+			return true; //Infectada
+		}
+		return false;
+	}
+	
+	public void registerDiscoveredCell() {
+		discoveredCells++;
+		if(discoveredCells == cityType.getSize()) {
+			state = CityState.CLEARED;
 		}
 		
 	}
 	
-	public 	boolean registerDiscoveredCell() {
-		
-		
-		
-		return CityState.CLEARED;
+	@Override	//redefinir
+	public String toString() {
+		return "Id: " + id + " | City type: " + getCityTypeName() + " | Size: " + getSize();
 	}
 	
+	@Override	//redefinir
+	public boolean equals( Object a ) {
+		City city;
+		
+		if ( !(a instanceof City) ) {
+			return false;
+		}
+		
+		city = (City) a;
+		
+		if(city.getCityType()) {
+			
+		}
+		
+		
+		
+		
+		
+		return false;
+	}
 	
 	
 	

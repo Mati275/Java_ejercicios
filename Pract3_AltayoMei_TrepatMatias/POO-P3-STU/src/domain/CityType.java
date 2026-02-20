@@ -44,15 +44,17 @@ public class CityType {
 			}	
 		}
 	}
+
 	
 	
-	public static void createCityTypes(){ //Sobrecarga
-		String[] id = new String [5];
-		String name[] = new String [5];
-		int width[] = new  int [5];
-		int height[] = new int [5];
-		
-	}
+//TODO
+//	public static void createCityTypes(){ //Sobrecarga
+//		String[] id = new String [5];
+//		String name[] = new String [5];
+//		int width[] = new  int [5];
+//		int height[] = new int [5];
+//		createCityTypes();
+//	}
 	
 	public String getId () {
 		return id;
