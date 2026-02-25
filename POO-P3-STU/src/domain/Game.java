@@ -52,7 +52,7 @@ public class Game {
 		return gameBoard.getRows();
 	}
 	
-	public int getColumns() {
+	public int getNumCols() {
 		return gameBoard.getColumns();
 	}
 	
@@ -159,7 +159,7 @@ public class Game {
 
 // ATTRIBUTES
 
-//CONSTRUCTOR
+// CONSTRUCTOR
 
 
 //*******
