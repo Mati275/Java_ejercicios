@@ -1,7 +1,5 @@
 package domain;
 
-import sun.security.x509.AVA;
-
 public class CityType {
 
 	// ATRIBUTES
@@ -14,7 +12,6 @@ public class CityType {
 	private static CityType availableCityTypes [];
 	
 	//CONSTRUCTOR
-	
 	private CityType (String id, String name, int width, int height) {
 		this.name = name;
 		this.id = id;
@@ -25,10 +22,19 @@ public class CityType {
 		
 	}
 	
+	
 	// *******
 	// METHODS
 	// *******
 	
+	// STATIC METHODS
+	/**
+	 * Creates and initialize the vector of "availableCityTypes"
+	 * @param id[]
+	 * @param name[]
+	 * @param width[]
+	 * @param height[]
+	 */
 	public static void createCityTypes (String id[],String name[], int width[], int height[]) {
 		if (id.length == name.length && 
 				id.length == width.length && 
@@ -37,23 +43,35 @@ public class CityType {
 				name.length == height.length &&
 				width.length == height.length) {
 			
-			availableCityTypes = new CityType [name.length];
+			availableCityTypes = new CityType [name.length]; 
 			
+			// Asigning each value of the parameters with the correct position to create the objects
 			for (int i = 0; i < availableCityTypes.length; i++) {
 				availableCityTypes [i] = new CityType(id [i], name [i], width [i], height [i]);
 			}	
 		}
 	}
 	
+	// (Overcharge the methods, creating two with the same name with different parameters)
 	
-	public static void createCityTypes(){ //Sobrecarga
-		String[] id = new String [5];
-		String name[] = new String [5];
-		int width[] = new  int [5];
-		int height[] = new int [5];
+	/**
+	 * Call "createCityTypes (String id[],String name[], int width[], int height[])" with parameters by default 
+	 */
+	public static void createCityTypes(){
+		// Creating by default all the parameters
+		String[] id = { "METROPOLIS", "URBAN CENTER", "TOWN", "VILLAGE", "HAMLET" };
+		String name[] = { "ME", "UC", "TO", "VI", "HA" } ;
+		int width[] = { 5, 7, 3, 2, 1 };
+		int height[] = { 2, 1, 2, 2, 1 };
 		
+		createCityTypes(id, name, width, height);
 	}
 	
+	public static CityType[] getAvailableCityTypes() {
+		return availableCityTypes;
+	}
+	
+	// GETTERS
 	public String getId () {
 		return id;
 	}

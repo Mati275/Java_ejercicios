@@ -1,87 +1,138 @@
 package domain;
 
-public class City {
+public class City implements Comparable {
 
-	private CityType cityType; //representa el tipo de ciudad
-	private int id; //id de asignar ciudad
-	private int discoveredCells; //numero de celdas que descubrió el jugador
-	private CityType state; //estado de la ciudad
+	// ATTRIBUTES
+	private CityType cityType; 
+	private int id; 
+	private int discoveredCells; 
+	private CityState state; 
 	
-	private static int usedIds; //proximo id disponible pera crear una nueva ciudad
+	private static int usedIds = 0; 
 	
 	//CONSTRUCTOR
-	
-	public City (CityType cityType, int discoberyCells, int id) {
-		discoberyCells = 0;
+	public City (CityType cityType) {
+		this.cityType = cityType;
+		
+		discoveredCells = 0;
 		id = usedIds;
 		usedIds++;
-		//CitySate.DORMANT = 0;
+		
+		state = CityState.DORMANT;
 			
 		}
 		
 	// *******
 	// METHODS
 	// *******
-	
+		
+	// GETTERS
 	public int getId() {
 		return id; //return  atribur id de ciudad
 	}
 	
-	public CityType getCityType() {
-		return cityType; 
+	public String getCityTypeId() {
+		return cityType.getId();
 	}
 	
-	public CityType getCityTypeName() {
-		return cityType;
+	public String getCityTypeName() {
+		return cityType.getName();
 	}
 	
-	public CityType getSize() {
-		return size; //return  mida
+	public int getSize() {
+		return cityType.getSize(); 
 	}
 	
-	public CityState getIsInfected() {
-		if(CityState.INFECTED) {
-		return true;
-		}
-	}
+	// OTHER METHODS
 	
-	public CityState hasBeenSaved() {
-		if (CityState.CLEARED) {
+	public boolean isInfected() {
+		if(state == CityState.INFECTED) {
 			return true;
 		}
+		return false;
 	}
 	
+	public boolean hasBeenSaved() {
+		if (state == CityState.CLEARED) {
+			return true;
+		}
+		return false;
+	}
+	
+	
+	// If it has the conditions requested, infects the city
 	public boolean infect() {
-		if (CityState.DORMANT && discoveredCells) {
-		return true; //Infectada
+		if (state == CityState.DORMANT && discoveredCells == 0) {
+			return true; 
+		}
+		return false;
+		
+	}
+	
+	// Called when the player discovers a city
+	public void registerDiscoveredCell() {
+		discoveredCells ++;
+		if( discoveredCells == getSize() ) {
+			state = CityState.CLEARED;
 		}
 		
 	}
 	
-	public 	boolean registerDiscoveredCell() {
+	
+	@Override
+	public String toString() {
+		return "Id: " + id + " | City type: " + getCityTypeName() + " | Size: " + getSize();
+	}
+	
+	@Override
+	public boolean equals(Object obj) {
+		City otherCity;
 		
+		if( !(obj instanceof City) ) {
+			return false;
+		}
 		
+		otherCity = (City) obj;
 		
-		return CityState.CLEARED;
+		// TODO: CHECK IF THE THING WE NEED TO COMPARE IS THE ID
+		if( getCityTypeId().equals( otherCity.getCityTypeId() ) ) {
+			return true;
+		}
+		
+		return false;
+		
 	}
 	
 	
+	// IMPLEMENT THE METHODS OF THE INTERFACE "COMPARABLE"
 	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
+	public int compareTo(Object obj) {
+		City city;
+		
+		// If the object is a city
+		if( (obj instanceof City) ) {
+			city = (City) obj;
+			
+			// Compare the size
+			
+			// Both are equal
+			if( getSize() == city.getSize() ) {
+				return 0;
+			} 
+			// The city in the parameter is smaller
+			else if( city.getSize() < getSize() ) {
+				return 1; 
+			}
+			// The city in the parameter is bigger
+			else {
+				return -1; 
+			}
+			
+		} else {
+			// encara res
+			return -1;
+		}		
+	}
 	
 	
 }
