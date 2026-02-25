@@ -93,7 +93,7 @@ public class City {
 			return false;
 		}
 		
-		city = (City) a;
+		city = (City) a;	//a es City
 		
 		if(city.getCityType()) {
 			

@@ -22,10 +22,14 @@ public abstract class Cell {
 	
 	public abstract boolean isEmpty();
 	
+	public boolean hasCityBeenSaved() {
+		return false;
+	}
+	
 	public String getCityTypeName () {
 		return "";
 	}
-	
+		
 	
 	public String getCityTypeId() {
 		return null;
@@ -50,10 +54,9 @@ public abstract class Cell {
 		}
 	}
 	
-	public boolean isCityInfectated () {
+	public boolean isCityInfected() {
 		return false;
-	}	
-	
+	}
 	
 	
 }
