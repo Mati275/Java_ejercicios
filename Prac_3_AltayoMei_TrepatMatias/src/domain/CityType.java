@@ -1,12 +1,14 @@
 package domain;
 
+import exeptions.IncompatibleVectorsException;
+
 public class CityType {
 
 	// ATRIBUTES
 	private String name;
 	private int size;
 	private int height;
-	private int width; //ancho
+	private int width; 
 	private String id;
 	
 	private static CityType availableCityTypes [];
@@ -36,21 +38,25 @@ public class CityType {
 	 * @param height[]
 	 */
 	public static void createCityTypes (String id[],String name[], int width[], int height[]) {
-		if (id.length == name.length && 
-				id.length == width.length && 
-				id.length == height.length && 
-				name.length == width.length &&
-				name.length == height.length &&
-				width.length == height.length) {
-			
-			availableCityTypes = new CityType [name.length]; 
-			
-			// Asigning each value of the parameters with the correct position to create the objects
-			for (int i = 0; i < availableCityTypes.length; i++) {
-				availableCityTypes [i] = new CityType(id [i], name [i], width [i], height [i]);
-			}	
-		}
+		// The size isn't correct
+		if (id.length != name.length || 
+				id.length != width.length || 
+				id.length != height.length || 
+				name.length != width.length ||
+				name.length != height.length ||
+				width.length != height.length) {
+			throw new IncompatibleVectorsException("Els vectors amb l'informació de les ciutats no tenen la mateixa mida");
+		
+		} // The size is correct
+		
+		availableCityTypes = new CityType [name.length]; 
+		
+		// Assigning each value of the parameters with the correct position to create the objects
+		for (int i = 0; i < availableCityTypes.length; i++) {
+			availableCityTypes [i] = new CityType(id [i], name [i], width [i], height [i]);
+		}	
 	}
+	
 	
 	// (Overcharge the methods, creating two with the same name with different parameters)
 	
@@ -59,8 +65,8 @@ public class CityType {
 	 */
 	public static void createCityTypes(){
 		// Creating by default all the parameters
-		String[] id = { "METROPOLIS", "URBAN CENTER", "TOWN", "VILLAGE", "HAMLET" };
-		String name[] = { "ME", "UC", "TO", "VI", "HA" } ;
+		String[] name = { "METROPOLIS", "URBAN CENTER", "TOWN", "VILLAGE", "HAMLET" };
+		String id[] = { "ME", "UC", "TO", "VI", "HA" } ;
 		int width[] = { 5, 7, 3, 2, 1 };
 		int height[] = { 2, 1, 2, 2, 1 };
 		

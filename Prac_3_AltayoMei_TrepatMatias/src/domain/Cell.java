@@ -1,5 +1,7 @@
 package domain;
 
+import exeptions.NoCityException;
+
 public abstract class Cell {
 	
 	// ATTRIBUTES
@@ -31,16 +33,16 @@ public abstract class Cell {
 		return false;
 	}
 	
-	public String getCityTypeName() {
-		return "";
+	public String getCityTypeName() throws NoCityException{
+		throw new NoCityException("You are trying to get a cityTypeName in a EmptyCell");
 	}
 	
-	public String getCityTypeId() {
-		return null;
+	public String getCityTypeId() throws NoCityException{
+		throw new NoCityException("You are trying to get a cityTypeID in a EmptyCell");
 	}
 	
-	public City getCity() {
-		return null;
+	public City getCity() throws NoCityException{
+		throw new NoCityException("You are trying to get a city in a EmptyCell");
 	}
 	
 	public boolean investigate() {
@@ -50,8 +52,8 @@ public abstract class Cell {
 			return false;
 		}
 		
-		// There isn't a city on the cell && it's not investigated
-		if( getCity() == null ) {
+		// There isn't a city on the cell (the cell is empty) && it's not investigated
+		if( isEmpty() ) {
 			investigated = true;
 			return false;
 		}

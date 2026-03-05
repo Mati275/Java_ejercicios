@@ -1,12 +1,18 @@
 package domain;
 
+import exeptions.NoCityException;
+
 public class OccupiedCell extends Cell{
 	//ATTRIBUTES
 	private City city;
 		
 	// CONSTRUCTOR
-	public OccupiedCell( City city ) {
+	public OccupiedCell( City city ) throws NoCityException{
 		super();
+		if( city == null ) {
+			throw new NoCityException("You are trying to assign a inexistent city to a cell that must contain a city");
+		}
+		
 		this.city = city;
 	}
 	
@@ -27,7 +33,7 @@ public class OccupiedCell extends Cell{
 		
 	}
 	
-	// CARACTERÍSTIQUES DE LA CIUTAT
+	// Attributes of the city
 	
 	@Override
 	public City getCity() {

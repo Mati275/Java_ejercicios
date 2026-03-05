@@ -1,5 +1,6 @@
 package domain;
 
+import exeptions.NoCityException;
 
 public class Game {
 	
@@ -14,7 +15,7 @@ public class Game {
 	private int remainingActions;
 	
 	//CONSTRUCTOR
-	public Game(  ) {
+	public Game() throws NoCityException {
 		CityType[] cityTypes;
 		int [] numOfCities;
 		
@@ -29,12 +30,12 @@ public class Game {
 		}
 		
 		
-		savedCities = new City[ numOfCities.length ]; 	// Creates the array with the length of the number of cities in the board
+		savedCities = new City[ cityTypes.length ]; 	// Creates the array with the length of the number of cities in the board
 														// In consequence of the array of numOfCities having number 1 for each position, this array has the same length
 		
 		// CREATE THE BOARD --> TODO: ASK, BECAUSE THIS INSTRUCTION ISN'T IMPLEMENTED ON THE DOC.
 		gameBoard = new Board( cityTypes, numOfCities );
-		
+
 		numSavedCities = 0;
 		remainingActions = 45;
 		
@@ -42,9 +43,9 @@ public class Game {
 	}
 	
 
-	//*******
-	//METHODS
-	//*******
+	// *******
+	// METHODS
+	// *******
 
 	// PUBLIC METHODS
 	
@@ -59,9 +60,8 @@ public class Game {
 
 	
 	
-	
 	public boolean hasEnded() {
-		return gameBoard.allCitiesSaved() || remainingActions == 0 || gameBoard.allCitiesInfected();
+		return gameBoard.allCitiesSaved() || remainingActions <= 0 || gameBoard.allCitiesInfected();
 	}
 	
 
@@ -69,7 +69,7 @@ public class Game {
 		return gameBoard.hasCityBeenSaved(row, col);
 	}
 	
-	public String getCityTypeName(int row, int col) {
+	public String getCityTypeName(int row, int col) throws NoCityException {
 		return gameBoard.getCityTypeName(row, col);
 	}
 	
@@ -85,7 +85,7 @@ public class Game {
 		return gameBoard.allCitiesInfected();
 	}
 	
-	public boolean investigateArea( int row, int col ) {
+	public boolean investigateArea( int row, int col ) throws NoCityException {
 		boolean succesfullInvestigated;
 		
 		succesfullInvestigated = gameBoard.investigate(row, col);
@@ -128,26 +128,23 @@ public class Game {
 		return gameBoard.toString();
 	}
 	
-	
-	// PRIVATE METHODS
+
+
 	private void sortSavedCitiesBySize() {
-		City lastCity;
-		lastCity = savedCities[numSavedCities - 1];
 		
-		for(int i = 0; i < numSavedCities - 1; i ++) {
-			// If the size of the last city is smaller to the size than one city already in the parameters
-			if( lastCity.compareTo(savedCities[i]) < 0 ) {
+		City lastCityAdded = savedCities[numSavedCities - 1]; // The last index of the array is the last city
+		
+		// Last index filled --> first index 
+		// This iteration moves the last city added to the correct position of the array, using a simplification of the bubble method
+		for(int i = numSavedCities - 2; i >= 0; i--) {
 			
-				for(int j = numSavedCities - 1; j > i; j--) {
-					savedCities[j] = savedCities[j - 1];
-				}
-				
-				// Add the last added city to the position that is duplicated after this loop
-				savedCities[i] = lastCity;
-			
+			// If the size of the last city is smaller than the size of the position that we're checking
+			// swap the positions
+			if( lastCityAdded.compareTo(savedCities[i]) < 0 ) {
+				savedCities[i + 1] = savedCities[i];
+				savedCities[i] = lastCityAdded;
 			}
 		}
-		
 	}
 	
 	
@@ -157,13 +154,3 @@ public class Game {
 	
 }
 
-// ATTRIBUTES
-
-// CONSTRUCTOR
-
-
-//*******
-//METHODS
-//*******
-
-//GETTERS

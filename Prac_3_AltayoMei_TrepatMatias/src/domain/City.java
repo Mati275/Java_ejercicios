@@ -28,7 +28,7 @@ public class City implements Comparable {
 		
 	// GETTERS
 	public int getId() {
-		return id; //return  atribur id de ciudad
+		return id;
 	}
 	
 	public String getCityTypeId() {
@@ -63,7 +63,10 @@ public class City implements Comparable {
 	// If it has the conditions requested, infects the city
 	public boolean infect() {
 		if (state == CityState.DORMANT && discoveredCells == 0) {
+			
+			state = CityState.INFECTED;
 			return true; 
+			
 		}
 		return false;
 		
@@ -109,30 +112,32 @@ public class City implements Comparable {
 	public int compareTo(Object obj) {
 		City city;
 		
-		// If the object is a city
-		if( (obj instanceof City) ) {
-			city = (City) obj;
+		// The object is not a city
+		if( !(obj instanceof City) ) {
 			
-			// Compare the size
+			throw new ClassCastException();
 			
-			// Both are equal
-			if( getSize() == city.getSize() ) {
-				return 0;
-			} 
-			// The city in the parameter is smaller
-			else if( city.getSize() < getSize() ) {
-				return 1; 
-			}
-			// The city in the parameter is bigger
-			else {
-				return -1; 
-			}
+		} // The object is a city
+
+		city = (City) obj;
+		
+		// Compare the size
+		
+		// Both are equal
+		if( getSize() == city.getSize() ) {
+			return 0;
+		} 
+		// The city in the parameter is smaller
+		else if( city.getSize() < getSize() ) {
+			return 1; 
+		}
+		// The city in the parameter is bigger
+		else {
+			return -1; 
+		}
 			
-		} else {
-			// encara res
-			return -1;
-		}		
 	}
+	
 	
 	
 }

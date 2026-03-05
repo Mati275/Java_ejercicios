@@ -2,6 +2,9 @@ package domain;
 
 import java.util.Random;
 
+import exeptions.IncompatibleVectorsException;
+import exeptions.NoCityException;
+
 public class Board implements IBoard {
 
 	//ATTRIBUTES
@@ -9,7 +12,7 @@ public class Board implements IBoard {
 	private City cities [];
 	
 	// CONSTRUCTOR
-	public Board(int row, int col, CityType[] cityTypes, int[] numOfCities) {
+	public Board(int row, int col, CityType[] cityTypes, int[] numOfCities) throws NoCityException {
 		cells = new Cell[row][col];
 		
 		createEmptyBoard();
@@ -18,7 +21,7 @@ public class Board implements IBoard {
 		
 	}
 	
-	public Board(CityType[] cityTypes, int[] numOfCities) {
+	public Board(CityType[] cityTypes, int[] numOfCities) throws NoCityException {
 		this(10, 10, cityTypes, numOfCities);
 	}
 
@@ -46,25 +49,26 @@ public class Board implements IBoard {
 		return cells[row][col].hasCityBeenSaved();
 	}
 	
+
 	/**
-	 * Check if all cities are saves
+	 * Check if all cities are saved
 	 * @return True if all the cities are saved, false otherwise
 	 */
 	public boolean allCitiesSaved() {
-		for(int i = 0; i < cells.length; i++) {
+		for(int i = 0; i < cities.length; i++) {
 			if( !cities[i].hasBeenSaved() ) {
 				return false; // At least one city isn't saved
 			}
 		}
 		return true; // All the cities are saved
 	}
-	
+
 	/**
 	 * Check if all cities are infected
 	 * @return True if all the cities are infected, false otherwise
 	 */
 	public boolean allCitiesInfected() {
-		for(int i = 0; i < cells.length; i++) {
+		for(int i = 0; i < cities.length; i++) {
 			if( !cities[i].isInfected() ) {
 				return false; // At least one city isn't infected
 			}
@@ -101,7 +105,7 @@ public class Board implements IBoard {
 	 * @param col
 	 * @return
 	 */
-	public String getCityTypeName(int row, int col) {
+	public String getCityTypeName(int row, int col) throws NoCityException{
 		return cells[row][col].getCityTypeName();
 	}
 	
@@ -111,7 +115,7 @@ public class Board implements IBoard {
 	 * @param col
 	 * @return
 	 */
-	public String getCityTypeId(int row, int col) {
+	public String getCityTypeId(int row, int col) throws NoCityException{
 		return cells[row][col].getCityTypeId();
 	}
 	
@@ -121,7 +125,7 @@ public class Board implements IBoard {
 	 * @param col
 	 * @return
 	 */
-	public City getCity(int row, int col) {
+	public City getCity(int row, int col) throws NoCityException{
 		return cells[row][col].getCity();
 	}
 	
@@ -133,7 +137,7 @@ public class Board implements IBoard {
 	public boolean infectRandomCity() {
 		Random alea = new Random();
 		
-		return cities[alea.nextInt(0, cities.length)].infect();
+		return cities[ alea.nextInt(0, cities.length) ].infect();
 	}
 	
 	
@@ -160,7 +164,12 @@ public class Board implements IBoard {
 						}
 						// City not infected
 						else {
-							board += cells[i][j].getCityTypeId();
+							try {
+								board += cells[i][j].getCityTypeId() + " ";
+							} 
+							catch( NoCityException err ) {
+
+							}
 						}
 					}
 					
@@ -196,8 +205,9 @@ public class Board implements IBoard {
 	 * Add all the necessary cities to the board, also creates and fill the array of 
 	 * @param cityTypes
 	 * @param numOfCities
+	 * @throws NoCityException 
 	 */
-	private void addCitiesToBoard( CityType[] cityTypes, int[] numOfCities ) {
+	private void addCitiesToBoard( CityType[] cityTypes, int[] numOfCities ) throws NoCityException  {
 		Random alea = new Random();
 		
 		int count = 0;			// A counter to count how many times was one cityType created
@@ -206,58 +216,55 @@ public class Board implements IBoard {
 		int randomRow, randomCol;
 		int totalCities = 0; 	// A number that indicates the number of all the cities that are created
 		
-		// Both arrays in the parameters have the same length
-		if( cityTypes.length == numOfCities.length ) {
+		// Both arrays in the parameters haven't the same length
+		if( cityTypes.length != numOfCities.length ) {
+			throw new IncompatibleVectorsException("El vector de cityTypes i el que indica cuantes ciutats s'han de crear de cada tipus, no tenen la mateixa mida");
+		} // Both arrays in the parameters have the same length
 			
+		for(int i = 0; i < numOfCities.length; i++) {
+			totalCities += numOfCities[0];
+		}
+		
+		cities = new City[totalCities]; // Initialize the array of cities with the total number of cities defined
+		
+		// Loop that creates each city ("k" is the index of the city to be created at this iteration)
+		for(int k = 0; k < totalCities; k++) {
 			
-			for(int i = 0; i < numOfCities.length; i++) {
-				totalCities += numOfCities[0];
-			}
+			randomRow = alea.nextInt(0, cells.length);
+			randomCol = alea.nextInt(0, cells[0].length);
 			
-			cities = new City[totalCities]; // Initialize the array of cities with the total number of cities defined
-			
-			// Loop that creates each city
-			for(int k = 0; k < totalCities; k++) {
-				
+
+			// While this random position isn't valid
+			while( !validPosition(randomRow, randomCol, cityTypes[idxCount]) ) {
 				randomRow = alea.nextInt(0, cells.length);
 				randomCol = alea.nextInt(0, cells[0].length);
+			} // Here we have a valid position
 				
+			cities[k] = new City(cityTypes[idxCount]); // Creates and saves a new city
 
-				// While this random position isn't valid
-				while( !validPosition(randomRow, randomCol, cityTypes[idxCount]) ) {
-					randomRow = alea.nextInt(0, cells.length);
-					randomCol = alea.nextInt(0, cells[0].length);
-				} // Here we have a valid position
-					
-				cities[k] = new City(cityTypes[idxCount]); // Creates and saves a new city
-
-				for(int i = randomRow; i < randomRow + cityTypes[idxCount].getHeight(); i ++) {
-					for(int j = randomCol; j < randomCol + cityTypes[idxCount].getWidth(); j++ ) {
-						cells[i][j] = new OccupiedCell(cities[k]); // Creates occupied cells according to the city that was created in this loop
-					}
-				} // End of the loop to create cities
-				
-				count ++;
-				
-				// If the counter of how many number of each city types reach to the limit, start creating other type of city
-				if( count >= numOfCities[idxCount] ) {
-					count = 0;
-					idxCount ++;
+			for(int i = randomRow; i < randomRow + cityTypes[idxCount].getHeight(); i ++) {
+				for(int j = randomCol; j < randomCol + cityTypes[idxCount].getWidth(); j++ ) {
+					cells[i][j] = new OccupiedCell(cities[k]); // Creates occupied cells according to the city that was created in this loop
 				}
-				
+			} // End of the loop to create cities
+			
+			count ++;
+			
+			// If the counter of how many number of each city types reach to the limit, start creating other type of city
+			if( count >= numOfCities[idxCount] ) {
+				count = 0;
+				idxCount ++;
 			}
-				
-				
-				
-				
+			
 		}
 			
 	}
 		
 	
 	
-	
+	// ************
 	// OTHER METHODS
+	// *************
 	
 	private boolean validPosition( int row, int col, CityType cityType ) {
 		
