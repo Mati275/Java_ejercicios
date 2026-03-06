@@ -9,6 +9,7 @@ import jconsole.JConsole;
 public class StartGame {
 	
 	
+	//Atributos
 	private Game game;
 	private JConsole console;
 	private JConsole savedCitiesInfo;

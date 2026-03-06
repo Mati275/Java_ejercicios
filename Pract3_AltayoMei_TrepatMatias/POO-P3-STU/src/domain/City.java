@@ -1,6 +1,6 @@
 package domain;
 
-public class City {
+public class City implements Comparable{
 
 	private CityType cityType; //representa el tipo de ciudad
 	private int id; //id de asignar ciudad
@@ -62,7 +62,7 @@ public class City {
 		}
 		
 		return false;
-	}
+	} 
 	
 	public boolean infect() {
 		if (CityState.DORMANT == state) {
@@ -95,15 +95,35 @@ public class City {
 		
 		city = (City) a;	//a es City
 		
-		if(city.getCityType()) {
+		if(city.getCityType().equals(this.getCityType())) {
+			return true;
 			
 		}
-		
-		
-		
-		
-		
 		return false;
+	}
+
+
+
+	@Override
+	public int compareTo(Object o) {
+		City city;
+		
+		if (o instanceof City) {
+			
+			city = (City) o;	//city es igual que "o" (suponiendo que o es una City)
+			
+			if (this.getSize() == city.getSize()) {
+				return 0;
+			} else if (this.getSize() > city.getSize()) {
+				return 1;
+			} else {
+				return -1;
+			}
+			
+		} else {
+			return 0;
+		}
+		
 	}
 	
 	

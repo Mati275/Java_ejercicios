@@ -45,7 +45,7 @@ public abstract class Cell {
 		} else {
 			investigated = true;
 			
-			if( getCity() == null ) {
+			if( isEmpty() ) {
 				return false;
 			} 
 			

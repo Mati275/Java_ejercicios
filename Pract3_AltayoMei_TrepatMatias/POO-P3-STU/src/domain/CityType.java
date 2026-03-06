@@ -46,15 +46,14 @@ public class CityType {
 	}
 
 	
-	
-//TODO
-//	public static void createCityTypes(){ //Sobrecarga
-//		String[] id = new String [5];
-//		String name[] = new String [5];
-//		int width[] = new  int [5];
-//		int height[] = new int [5];
-//		createCityTypes();
-//	}
+	public static void createCityTypes(){ //Sobrecarga
+		String[] id = {"ME", "UC", "TO", "VI", "HA"};
+		String name[] = {"METROPOLIS", "URBAN CENTER", "TOWN", "VILLAGE", "HAMLET"};
+		int width[] = {5, 7, 3, 2, 1};
+		int height[] = {2, 1 , 2, 2, 1};
+		
+		createCityTypes(id, name, width, height);
+	}
 	
 	public String getId () {
 		return id;
@@ -75,19 +74,6 @@ public class CityType {
 	public int getWidth() {
 		return width;
 	}
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
 	
 	
 	

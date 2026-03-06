@@ -15,15 +15,12 @@ public class Game {
 		return gameBoard.getRows();
 	}
 	public int getNumRCols() {
-		return gameBoard.getColums();
+		return gameBoard.getColumns();
 	}
 	
 	public boolean hasEnded() {
-		if (/*True partida acabada*/) {
-		return gameBoard.allCitiesSaved(); //Partida acabada
-		} else { /*Si el jugador no puede hacer más acciones o si estan infectadas*/
-			return gameBoard. allCitiesInfected(); 
-		}
+		return gameBoard.allCitiesSaved() || gameBoard. allCitiesInfected() || (remainingActions == 0);
+	
 	}
 	
 	public boolean hasCityBeenSaved(int row, int col) {
@@ -31,11 +28,11 @@ public class Game {
 	}
 	
 	public boolean isCellEmpty(int row, int col) {
-		return gameBoard.isCityEmpty(row, col);
+		return gameBoard.isCellEmpty(row, col);
 	}
 	
-	public getRemainingActions() {
-		return //Numero de acciones que le quedan al jugador
+	public int getRemainingActions() {
+		return remainingActions;	//Numero de acciones que le quedan al jugador
 	}
 	
 	public boolean allCitiesInfected() {
@@ -44,6 +41,36 @@ public class Game {
 	
 	public boolean investigateArea(int row, int col) {
 		return true;
+	}
+	
+	public String savedCitiesInfo() {
+		String mgs = "";
+		for (int i = 0; i < numSavedCities; i++) {
+			mgs +=  "Id: " + savedCities [i].getId() + " | City type: " + savedCities[i].getCityType()
+					+ " | Size: " + savedCities[i].getSize();	
+		}
+		
+		return mgs;
+	}
+	
+	public String boardToString() {
+		return gameBoard.toString();
+	}
+	
+	
+	private void sortSavedCitiesBySize() {
+		City ultima = savedCities[numSavedCities-1];
+		
+		for(int i = numSavedCities-2; i >= 0;  i--) { // Intercanvi 
+			if (ultima.compareTo(savedCities[i]) < 0) {
+				savedCities[i+1] = savedCities [i];
+				savedCities [i] = ultima;
+			}
+		}
+	}
+	
+	private void infectCity() {
+		gameBoard.infectRandomCity();
 	}
 	
 }

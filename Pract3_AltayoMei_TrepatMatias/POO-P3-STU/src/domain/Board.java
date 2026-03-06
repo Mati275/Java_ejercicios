@@ -1,6 +1,8 @@
 package domain;
 
-public class Board {
+import java.util.Random;
+
+public class Board implements IBoard {
 	
 	private Cell [][] cells;
 	private City [] cities;
@@ -10,10 +12,9 @@ public class Board {
 	public Board (int row, int col, CityType [] cityType, int [] numOfCities){
 		cells = new Cell [row][col]; 	//Define la mida de la matriz de las celdas
 		
-		//TODO
 		createEmptyBoard();
 		
-		addCitiesToBoard();
+		addCitiesToBoard(cityType, numOfCities);
 		
 	}
 	
@@ -34,58 +35,46 @@ public class Board {
 		return cells[row][col].hasBeenInvestigated();
 	}
 	
-	//TODO: Te marco las que estpy haciendo y pienso que estan mal
 	public boolean allCitiesSaved () {
 		for(int i = 0; i < cities.length; i++) { //recorre las ciudades
-				if (cities [i].hasBeenSaved()) {
-					return true;
+				if (!cities [i].hasBeenSaved()) { // Si encuentra una que no este salvada
+					return false;
 				}
 			}
-		return false;
+		return true;	//Todas salvadas
 	}
 	
 	//TODO
 	public boolean allCitiesInfected () {
 		for(int i = 0; i < cities.length; i++) { //recorre las ciudades
-				if (cities [i].infect()) {
-					return true;
+				if (!cities [i].isInfected()) { //Alguna no infectada
+					return false;
 				}
 			}
-		return false;
+		return true;	//Infectadas
 	}
 	
-	//TODO: esta mal
 	@Override
 	public int getRows() { 		//Return del numero de filas
-		int totalRow;
-		for (int i = 0; i < cells.length; i++) {
-			totalRow += cells[0][i];
-		}
+		return cells.length;
 		
 	}
 	
-	//TODO: esta mal
 	@Override
-	public int getColums() { 		//Return del numero de filas
-		int totalCol;
-		for (int i = 0; i < cells.length; i++) {
-			totalCol += cells[i][0];
-		}
+	public int getColumns() { 		//Return del numero de filas
+		return cells[0].length;
 		
 	}
 	
 	//TODO
 	public boolean hasCellBeenInvestigated(int row, int col) {
-		if(cells[row][col].investigate()){ //return true, if celda investigada
-			return true;
-		} 
-		return false;
-		
+		return (cells[row][col].hasBeenInvestigated()); //return true, if celda investigada
+	
 	}
 	
 	//TODO
 	@Override
-	public boolean isCityEmpty(int row, int col) {
+	public boolean isCellEmpty(int row, int col) {
 		return cells[row][col].isEmpty();
 	}
 	
@@ -105,13 +94,14 @@ public class Board {
 	}
 	
 	public boolean infectRandomCity() {	//Infecta una ciudad al azar
-		return true;
+		Random alea = new Random ();
+		return cities[alea.nextInt(0, cities.length)].infect();
 	}
 	
 	//TODO
 	@Override
-	public void toSting() {
-		
+	public String toString() {
+		return "";
 	}
 	
 	// ***************
@@ -121,10 +111,19 @@ public class Board {
 	//Crear createEmptyBoard: Omple la matriu cells amb cel·les buides (EmptyCell)
 	
 	private void addCitiesToBoard(CityType [] cities, int [] quantityCities) {
-		if (cities.equals(quantityCities)) {
+		
 			
+		
+	}
+	
+	private void createEmptyBoard() {
+		for (int i = 0; i < cells.length; i++) {
+			for (int j = 0; j < cells[i].length; j++) {
+				cells[i][j] = new EmptyCell();	//Inicializa las celdas
+			}
 		}
 	}
+	
 	
 		
 }
