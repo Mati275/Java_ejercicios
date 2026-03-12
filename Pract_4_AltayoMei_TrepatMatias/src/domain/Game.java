@@ -74,8 +74,12 @@ public class Game {
 		
 		// Change the variable if the game has already ended
 		if (hasGameEnded()) {
-			if (winner == PLAYER1 || winner == PLAYER2) {
-				endMessage = "Player " + winner + " wins the game";				
+			if (winner == PLAYER1) {
+				endMessage = "Player 1 wins the game";	
+				
+			} else if (winner == PLAYER2){
+				endMessage = "Player 2 wins the game";				
+
 			} else {
 				endMessage = "No one wins! ";
 			}
@@ -95,5 +99,13 @@ public class Game {
 		}
 	}
 	
+	
+	
+	
+	public char whoMoved (int row, int col) {
+		return board.getCellContent(row, col);
+	}
+	
+
 		
 }
