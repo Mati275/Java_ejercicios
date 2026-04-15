@@ -74,6 +74,7 @@ public class Connect4Game extends JFrame implements ActionListener{
 		setSize(windowDimension);			
 		setMinimumSize(windowDimension);	
 		
+		
 		// playerInfoContainer
 		dimPlayerInfoContainer = new Dimension (Integer.MAX_VALUE, 70);
 		playerInfoContainer.setMaximumSize(dimPlayerInfoContainer);

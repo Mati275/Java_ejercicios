@@ -87,17 +87,17 @@ public class City implements Comparable {
 		return "Id: " + id + " | City type: " + getCityTypeName() + " | Size: " + getSize();
 	}
 	
+
 	@Override
-	public boolean equals(Object obj) {
+	public boolean equals( Object obj ) {
 		City otherCity;
 		
-		if( !(obj instanceof City) ) {
+		if( !( obj instanceof City ) ) {
 			return false;
 		}
 		
 		otherCity = (City) obj;
 		
-		// TODO: CHECK IF THE THING WE NEED TO COMPARE IS THE ID
 		if( getCityTypeId().equals( otherCity.getCityTypeId() ) ) {
 			return true;
 		}
