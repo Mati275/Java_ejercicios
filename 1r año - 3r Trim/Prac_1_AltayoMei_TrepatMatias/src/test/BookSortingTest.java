@@ -53,16 +53,16 @@ public class BookSortingTest {
         sortedBooks = new Book[sortedTags.length];
 
         for (int i=0; i<sortedTags.length; i++) {
-            sortedBooks[i] = new Book(sortedTags[i], 2024, titles[i]);
-            books[i] = new Book(sortedTags[sortedTags.length-1-i], 2024, titles[sortedTags.length-1-i]);
+            sortedBooks[i] = new Book(sortedTags[i], 2024, titles[i]); // Sort the books correctly
+            books[i] = new Book(sortedTags[sortedTags.length-1-i], 2024, titles[sortedTags.length-1-i]); // The books are in reverse order
         }
     }
 
     @Test
     void checkBookSorting(){
-        Arrays.sort(books);
+        Arrays.sort(books); // Sort an array comparing the interface "comparable", in ascending order (first smaller, finally bigger)
         for(int i=0; i<books.length; i++){
-            Assertions.assertEquals(books[i], sortedBooks[i]);
+            Assertions.assertEquals(books[i], sortedBooks[i]); // All the elements in both arrays are the same
         }
     }
 

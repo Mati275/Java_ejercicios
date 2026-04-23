@@ -1,25 +1,38 @@
 package pr1;
 
-// <tipusDeDada>: Indica que només es pot comparar amb el tipus de dada indicada
 public class Book implements Comparable<Book> {
 
+	// ATTRIBUTES
 	private BookTag tag;
 	private int year;
 	private String title;
 	private int numCopies;
-	
+
+	// CONSTRUCTOR
+
+	/**
+	 * Creates a Book with a tag, year, title and one copy
+	 * @param tag
+	 * @param year
+	 * @param title
+	 */
 	public Book (BookTag tag, int year, String title) {
 		this.tag = tag;
 		this.year = year;
 		this.title = title.toUpperCase();
 		this.numCopies = 1;
 	}
-	
+
+	// GETTERS
 	public BookTag getTag () {return this.tag;}
 	public int getYear() {return this.year;}
 	public String getTitle() {return this.title;}
 	public int getNumCopies() {return this.numCopies;}
-	
+
+	// ************
+	// OTHER FUNCTIONS
+	// ************
+
 	/**
 	 * Adds num to numCopies. Can be used to increase or decrease number of copies by the given parameter.
 	 * numCopies is always >=0
@@ -35,10 +48,10 @@ public class Book implements Comparable<Book> {
 	public int compareTo(Book other) {
 		
 		/* Books are sorted by booktag. Books with lowest booktags go first */
-		
-		/* COMPLETE */
 
-		return -1; //TODO: Change this!
+		// Lowest booktag --> Go first (Sorted in ascending order)
+		return this.tag.compareTo(other.getTag());
+
 	}
 	
 	@Override
@@ -50,7 +63,7 @@ public class Book implements Comparable<Book> {
 			return false;
 		}
 		Book other = (Book) arg;
-		return this.compareTo(other)==0;
+		return this.compareTo(other) == 0;
 	}
 	
 	@Override
