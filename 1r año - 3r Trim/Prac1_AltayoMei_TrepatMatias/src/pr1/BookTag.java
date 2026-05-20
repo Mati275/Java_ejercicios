@@ -33,53 +33,18 @@ public class BookTag implements Comparable<BookTag>{
 		// "this" obj. First == Negative number
 		// "this" obj. Second == Positive number
 
-		// Low
 
-		// If it can resolve with checking "left"
-		if( this.left.compareTo(other.getLeft()) != 0){
 
-			// This.left is lower than other.getLeft() --> "this" go first --> Return negative
-			if (this.left.compareTo(other.getLeft()) < 0){
-				return -1;
-			}
+		if (! left.equals(other.left)){
+			return left.compareTo(other.left);}
 
-			// This.left is higher than other.getLeft() --> "this" go second --> Return positive
-			else{
-				return 1;
-			}
-		} // Cannot resolve
+		else if( mid != other.mid ){
+			return mid - other.mid;
+		}
 
-		// If it can resolve with checking "mid"
-		else if( this.mid - other.getMid() != 0 ){
-
-			// This.mid is lower than other.getMid() --> "this" go first --> Return negative
-			if(this.mid - other.getMid() < 0){
-				return -1;
-			}
-
-			// This.mid is higher than other.getMid() --> "this" go second --> Return positive
-			else{
-				return 1;
-			}
-
-		}// Cannot resolve
-
-		// If it can resolve with checking "right"
-		else if( this.right.compareTo(other.getRight()) != 0 ){
-
-			// This.right is lower than other.getRight() --> "this" go second --> Return positive
-			if(this.right.compareTo(other.getRight()) < 0){
-				return 1;
-			}
-
-			// This.right is higher than other.getRight() --> "this" go first --> Return negative
-			else{
-				return -1;
-			}
-		} // Cannot resolve
-
-		// The books are the same
-		return 0;
+		else {
+			return -(this.right.compareTo(other.right));
+		}
 
 		/* Booktags are sorted as follows:
 		 	- first go booktags with lowest left attribute. If left attributes cannot discriminate...
