@@ -299,6 +299,7 @@ public class Censorship implements ActionListener {
 									  Map<String, Integer> statistics ){
 
 		String[] words = line.split(" ");
+		String finalLine = "";
 
 		for( int i = 0; i < words.length ; i++ ){
 
@@ -306,14 +307,18 @@ public class Censorship implements ActionListener {
 
 				if( words[i].contains(bannedWord) ){
 					words[i] = "****";
-					
+					statistics.put(bannedWord, statistics.get(bannedWord) + 1);
+
 				}
 
 			}
 
+			finalLine += words[i] + " ";
+
 		}
 
-		return null;
+
+		return finalLine;
 	}
 
 
