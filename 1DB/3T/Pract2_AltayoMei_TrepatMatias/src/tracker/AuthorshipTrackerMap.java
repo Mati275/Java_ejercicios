@@ -74,6 +74,11 @@ public class AuthorshipTrackerMap implements AuthorshipTracker{ //TODO: Complete
 	}
 
 
+	/**
+	 *
+	 * @param tag
+	 * @return
+	 */
 	@Override
 	public SortedSet<Author> findAuthors(BookTag tag) {
 		SortedSet <Author> sortedAuthors = new TreeSet<>(new AuthorNameComparator());
@@ -91,13 +96,21 @@ public class AuthorshipTrackerMap implements AuthorshipTracker{ //TODO: Complete
 		return sortedAuthors;
 	}
 
+	/**
+	 *
+	 * @param authorName
+	 * @return
+	 */
 	@Override
 	public SortedSet<Book> findBooks(String authorName) {
 		SortedSet<Book> sortedBook = new TreeSet<>();
 
 		for (Author author : authorBookMap.keySet()) {
 
-
+			if (author.getName().equalsIgnoreCase(authorName)) {
+				sortedBook.addAll(authorBookMap.get(author));
+				return sortedBook;
+			}
 
 		}
 
@@ -112,6 +125,8 @@ public class AuthorshipTrackerMap implements AuthorshipTracker{ //TODO: Complete
 	// Implementar comparator
 	public static class BookTitleComparator { //TODO: Complete header (implementa interficie comparator)
 		//TODO: Write a comparator that compares book titles
+
+
 	}
 
 	// Implementar comparator
