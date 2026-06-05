@@ -269,14 +269,18 @@ public class Censorship implements ActionListener {
 	}
 
 
-	/*
-	Buscar en el texto si aparece la palabra prohibida
-	independientemente poner **** (4 asteriscos)
-	No distinguir entre Mayuscula y Minuscula
-	Si sale en el string si es delante, detras o entre medio
-
-	textSplit(" "); separa las palabras por espacio
-	string() pov = textSplit(" ");
+	/**
+	 * Buscar en el texto si aparece la palabra prohibida
+	 * independientemente poner **** (4 asteriscos)
+	 * No distinguir entre Mayuscula y Minuscula
+	 * Si sale en el string si es delante, detras o entre medio
+	 * textSplit(" "); separa las palabras por espacio
+	 * string() pov = textSplit(" ");
+	 *
+	 * @param original
+	 * @param bannedWordList
+	 * @param statistics
+	 * @return
 	 */
 	protected static List<String> censorText (List<String> original, 
 			                                  List<String> bannedWordList, 
@@ -289,11 +293,22 @@ public class Censorship implements ActionListener {
 		
 		/* COMPLETE 3 */
 
+		List<String> censored = new LinkedList<>();
 
+		for (String line : original){
+			censored.add(censorLine(line, bannedWordList, statistics));
+		}
 
-		return null; //TODO: Change as necessary
+		return censored; //TODO: Change as necessary
 	}
 
+	/**
+	 *
+	 * @param line
+	 * @param bannedWordList
+	 * @param statistics
+	 * @return
+	 */
 	private static String censorLine (String line,
 									  List<String> bannedWordList,
 									  Map<String, Integer> statistics ){
@@ -305,32 +320,27 @@ public class Censorship implements ActionListener {
 
 			for( String bannedWord : bannedWordList ){
 
-				if( words[i].contains(bannedWord) ){
+				if( words[i].toLowerCase().contains(bannedWord.toLowerCase()) ){
 					words[i] = "****";
 					statistics.put(bannedWord, statistics.get(bannedWord) + 1);
-
 				}
-
 			}
-
 			finalLine += words[i] + " ";
-
 		}
-
 
 		return finalLine;
 	}
 
 
-
-
-
-
-	/*
-	Mapa --> cuantas veces se aliminaron del texto (relacionadas)/ Palabar que no se elimina nunca se pone 0
-	Se genera el fichero, y se tine que usar un research...
-	Se tiene que guardar resultados de arriba
-	Guarda el resultado de la censura
+	/**
+	 * Mapa --> cuantas veces se eliminaron del texto (relacionadas)/ Palabar que no se elimina nunca se pone 0
+	 * Se genera el fichero, y se tine que usar un research...
+	 * Se tiene que guardar resultados de arriba
+	 * Guarda el resultado de la censura
+	 *
+	 * @param path
+	 * @param censored
+	 * @param statistics
 	 */
 	protected void saveResults(Path path, List<String> censored, Map<String, Integer> statistics) {
 		/* Writes in f the censored text and the counting of banned words, according to the
@@ -338,6 +348,36 @@ public class Censorship implements ActionListener {
 		 */
 		
 		/* COMPLETE 4 */
+
+		try(DataOutputStream write = new DataOutputStream(
+				new BufferedOutputStream(
+                        Files.newOutputStream(path)) ) ){
+			write.writeInt();
+
+			for (String line : censored){ write.writeUTF(line); }
+			
+			write.writeInt(statistics.size());
+
+			for( Entry. )
+
+
+			}
+
+
+
+
+
+
+
+
+
+
+
+
+		} catch (IOException e){
+			System.out.println(e);
+
+		}
 
 	}
 
