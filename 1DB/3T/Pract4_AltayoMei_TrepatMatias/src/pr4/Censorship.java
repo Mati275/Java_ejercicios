@@ -12,7 +12,6 @@ import javax.swing.JFileChooser;
 
 import java.awt.event.ActionListener;
 import java.io.*;
-import java.nio.Buffer;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.*;
@@ -259,7 +258,7 @@ public class Censorship implements ActionListener {
 		String line;
 
 		try (BufferedReader br = Files.newBufferedReader(path)){
-			while (! ( ( line = br.readLine() ) == null) ){
+			while ( ( line = br.readLine() ) != null){
 				lines.add(line);
 			}
 
@@ -293,13 +292,19 @@ public class Censorship implements ActionListener {
 		
 		/* COMPLETE 3 */
 
+
+		// Inicializar estadísticas a 0
+		for (String banned : bannedWordList) {
+			statistics.put(banned, 0);
+		}
+
 		List<String> censored = new LinkedList<>();
 
 		for (String line : original){
 			censored.add(censorLine(line, bannedWordList, statistics));
 		}
 
-		return censored; //TODO: Change as necessary
+		return censored;
 	}
 
 	/**
@@ -318,11 +323,29 @@ public class Censorship implements ActionListener {
 
 		for( int i = 0; i < words.length ; i++ ){
 
+			//Censurar varias veces la misma palabra
+			//Patata (ta, ata)
+			// Desde la primera que coincida, no la sigue contando (censurando)
+			boolean censored = false;
+
+			// LoweCase --> Ignorar mayusculas y minusculas
+			//Ignora las diferencias entra mayus y minusculas
+			String lowerCase = words[i].toLowerCase();
+
+
 			for( String bannedWord : bannedWordList ){
 
-				if( words[i].toLowerCase().contains(bannedWord.toLowerCase()) ){
-					words[i] = "****";
+				if( lowerCase.contains(bannedWord.toLowerCase()) ){
+
+					// Solo lo censura 1 vez
+					if (!censored) {
+						words[i] = "****";
+						censored = true;
+					}
+
+					//Lo censura 1 vez
 					statistics.put(bannedWord, statistics.get(bannedWord) + 1);
+
 				}
 			}
 			finalLine += words[i] + " ";
@@ -351,28 +374,21 @@ public class Censorship implements ActionListener {
 
 		try(DataOutputStream write = new DataOutputStream(
 				new BufferedOutputStream(
-                        Files.newOutputStream(path)) ) ){
-			write.writeInt();
+						Files.newOutputStream(path)))) {
+			//Number of text censored
+			write.writeInt(censored.size());
 
+			// Write lines censored
 			for (String line : censored){ write.writeUTF(line); }
-			
+
+			// Number of words forbbiden
 			write.writeInt(statistics.size());
 
-			for( Entry. )
-
-
+			// Cada palabra forbbiden: word + number of times appeared
+			for( Map.Entry<String, Integer> entry : statistics.entrySet()) {
+				write.writeUTF(entry.getKey());      // Word
+				write.writeInt(entry.getValue());    // number of times appeared
 			}
-
-
-
-
-
-
-
-
-
-
-
 
 		} catch (IOException e){
 			System.out.println(e);
