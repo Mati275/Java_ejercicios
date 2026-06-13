@@ -10,12 +10,17 @@ public class Ex04_AlternateArraySum {
      * @return Result of the alternate sum
      */
     public static int alternateArraySum(int[] numbers){
-        if( numbers == null || numbers.length == 0 ){
+        return alternateArraySumIdx( numbers, 0 );
+    }
+
+    public static int alternateArraySumIdx(int[] numbers, int idx){
+
+        // Cas base
+        if( idx == numbers.length ){
             return 0;
         }
 
-        return numbers[0] - alternateArraySum(Arrays.stream(numbers).skip(1).toArray());
-        // 1-( 2 -( 3 - (4) ) ) --> 1 - 2 +3 -4
+        return numbers[idx] - alternateArraySumIdx( numbers, idx + 1 );
 
     }
 

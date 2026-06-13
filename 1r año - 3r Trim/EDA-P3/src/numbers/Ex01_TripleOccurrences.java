@@ -9,6 +9,27 @@ public class Ex01_TripleOccurrences {
      * @return Number of coocurrences of d in n. If d has two more d to its left, then it counts as 3 and not 1.
      */
     public static int countDigit(int n, int d) {
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
         int number;
 
         if( n == 0 ){
